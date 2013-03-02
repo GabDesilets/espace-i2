@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/html; charset=iso-8859-1");
-mysql_connect("localhost", "sitemeut_admin", "4C51d21f9C");
+mysql_connect("localhost", "root", "");
 mysql_select_db("sitemeut_espace-i2");
 
 $_POST['pseudo'] = trim($_POST['pseudo']);
@@ -21,7 +21,7 @@ if (isset($_POST['pseudo']) && isset($_POST['message']))
 $reponse = mysql_query("SELECT * FROM minichat ORDER BY id ASC");
 while($val = mysql_fetch_array($reponse))
 {
-	echo '<strong>'.htmlentities(stripslashes($val['pseudo'])).' à '.date('H\:i\:s',$val['timestamp']).' : </strong>'. htmlentities(stripslashes($val['message'])) .'<br/>';
+	echo '<strong>'.htmlentities(stripslashes($val['pseudo'])).' ï¿½ '.date('H\:i\:s',$val['timestamp']).' : </strong>'. htmlentities(stripslashes($val['message'])) .'<br/>';
 }
 mysql_close();
 ?>

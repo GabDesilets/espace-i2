@@ -39,7 +39,7 @@ function connecter($login, $password)
 }
 
 function get_etudiant( $where = null ) {
-    $connection = mysql_connect('localhost','sitemeut_admin','4C51d21f9C');
+    $connection = mysql_connect('localhost','root','');
     mysql_select_db('sitemeut_espace-i2',$connection);
     //die(var_dump($connection));
     $query = "select * from etudiant ";
