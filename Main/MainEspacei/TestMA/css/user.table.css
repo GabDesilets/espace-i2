@@ -50,6 +50,7 @@
     text-align: center;
     margin-top: -35px;
     border-top-right-radius: 10px;
+	float:left;
 }
 
 .current_onglet
