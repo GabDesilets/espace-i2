@@ -1,5 +1,5 @@
 <?php
-
+echo"âuse vaginal";
     include_once "calendrier_model.php";
 
 dispatchCalendar();
