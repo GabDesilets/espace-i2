@@ -6,14 +6,14 @@
  * Time: 10:19
  * To change this template use File | Settings | File Templates.
  */
-
+// include_once "modele/employe_model.php";
 function connecter($login, $password)
 {
-    $employes = get_etudiant("upper(login) = '".strtoupper($login)."'");
+    $employes = get_etudiant("login = '" . $login . "'");
     if($employes)
     {
         $employe = mysql_fetch_array($employes);
-        if(strtoupper($employe['password']) == strtoupper($password))
+        if($employe['password'] == $password)
         {
             if(session_id() == '')
             {
@@ -23,7 +23,10 @@ function connecter($login, $password)
             $_SESSION['nom'] = $employe['nom'];
             $_SESSION['prenom'] = $employe['prenom'];
             $_SESSION['admin'] = $employe['admin'];
-
+			$_SESSION['status'] = "En ligne";
+			
+			add_status($_SESSION['uid']);
+			
             return  true;
         }
         else
@@ -38,13 +41,15 @@ function connecter($login, $password)
 }
 
 function get_etudiant( $where = null ) {
-    $connection = mysql_connect('localhost','root','');
-    mysql_select_db('sitemeut_espace-i2',$connection);
-    //die(var_dump($connection));
-    $query = "select * from etudiant ";
+
+    // Connection à la base de données.  Cette façon de faire est temporaire
+	mysql_connect("localhost", "sitemeut_admin", "4C51d21f9C");
+	mysql_select_db("sitemeut_espace-i2");
+	
+	$query = "select * from etudiant ";
     if(isset($where))
     {
-        $query .= "where ".$where;
+        $query .= "where " . $where;
     }
     $result =  mysql_query($query);
     if(!$result)
@@ -56,4 +61,13 @@ function get_etudiant( $where = null ) {
     {
         return $result;
     }
+}
+
+function add_status($uid) {
+	
+	mysql_connect("localhost", "sitemeut_admin", "4C51d21f9C");
+	mysql_select_db("sitemeut_espace-i2");
+	
+	mysql_query("insert into `user_status` VALUES(".$uid.", 'En ligne')") or die(mysql_error());
+	
 }
