@@ -6,7 +6,6 @@
  * Time: 10:19
  * To change this template use File | Settings | File Templates.
  */
-// include_once "modele/employe_model.php";
 
 function connecter($login, $password)
 {

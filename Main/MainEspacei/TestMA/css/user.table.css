@@ -51,6 +51,47 @@
     margin-top: -35px;
     border-top-right-radius: 10px;
 	float:left;
+    display: none;
+}
+
+#options_bar
+{
+    border-bottom: 1px white solid;
+}
+
+#main_users_table_etu
+{
+    background-color: rgb( 232, 232, 232 );
+    border-radius : 10px;
+    height: 500px;
+    width: 200px;
+    margin-top: 15px;
+}
+
+#onglet_aidants_etu
+{
+    height: 23px;
+    display: inline-block;
+    width: 87px;
+    text-align: center;
+}
+
+#onglet_chat_etu
+{
+    height:23px;
+    width: 86px;
+    display: inline-block;
+    margin-left: 100px;
+    text-align: center;
+    margin-top: -25px;
+    border-top-right-radius: 10px;
+    float:left;
+    display: none;
+}
+
+#options_bar_etu
+{
+    border-bottom: 1px white solid;
 }
 
 .current_onglet
@@ -78,6 +119,20 @@
 }
 
 #liste_aidants
+ {
+     background-color: rgb( 175, 215, 200);
+     height: 475px;
+     border-bottom-left-radius: 10px;
+     border-bottom-right-radius: 10px;
+ }
+
+#liste_aidants p
+{
+    float: left;
+    margin-left : 5px;
+}
+
+#liste_aidants_etu
 {
     background-color: rgb( 175, 215, 200);
     height: 475px;
@@ -85,7 +140,7 @@
     border-bottom-right-radius: 10px;
 }
 
-#liste_aidants p
+#liste_aidants_etu p
 {
     float: left;
     margin-left : 5px;

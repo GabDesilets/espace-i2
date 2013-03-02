@@ -32,18 +32,6 @@ if ( !isset($_SESSION['admin'] ) ) {
 
     $(document).ready(function(){
 
-        /* Ce code est temporaire.  Il sert à afficher l'onglet chat ou le cacher */
-	    var hide = 0;
-        $("#hide_chat").click(function(){
-            if( hide == 0 ) {
-                $("#onglet_chat").css("display", "none");
-                hide = hide + 1;
-            }
-            else{
-                $("#onglet_chat").css("display", "inline-block");
-                hide = 0;
-            }
-        });
 		/* Permet de changer d'onglet -> Aidants -> Chat */
 		$(".onglets").click(function(){
 			var current_onglet = $(this).attr('id');
@@ -140,7 +128,7 @@ if ( !isset($_SESSION['admin'] ) ) {
 
 <div id='message' class="success"></div>
 <div id="page_complet">
-
+<?php if ( $_SESSION['admin'] == 1 ) : ?>
     <div id="aidants">
         <h4>Aidants connectés</h4>
         <div id='main_users_table'>
@@ -177,8 +165,32 @@ if ( !isset($_SESSION['admin'] ) ) {
 				</ul>
             </div>
         </div>
-        <p><a href="#" id="hide_chat">Hide chat</a></p>
     </div>
+
+    <?php else: ?>
+
+    <div id="aidants">
+        <h4>Aidants connectés</h4>
+        <div id='main_users_table_etu'>
+            <div id="options_bar_etu" style="height: 25px;">
+                <div id="onglet_aidants_etu" class="onglets btn btn-mini">
+                    <p>Aidants</p>
+                </div>
+
+                <div id="onglet_chat_etu" class="onglets btn btn-mini">
+                    <p>Chat</p>
+                </div>
+            </div>
+            <div id="liste_aidants_etu">
+                <br>
+                <ul class="unstyled">
+                    <?php echo get_user_status() ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <?php endif;?>
 
     <div id='calendar' style="width : 1000px; float: right;"></div>
 </div>
