@@ -1,0 +1,42 @@
+#users
+{
+	width: 200px; 
+	float: left;
+}
+
+#users h4
+{
+	text-align : center;
+}
+
+#main_users_table
+{
+	background-color: rgb( 232, 232, 232 ); 
+	border-radius : 10px; 
+	height: 500px; 
+	width: 200px;
+}
+
+#onglet_aidants
+{
+    background-color: rgb( 212, 212, 212);
+    height: 25px;
+    width: 100px;
+    text-align: center;
+}
+
+#onglet_chat
+{
+    background-color: rgb( 215, 255, 215);
+    height:25px;
+    width: 100px;
+    margin-left: 90px;
+    text-align: center;
+    margin-top: -30px;
+}
+
+#liste_aidants
+{
+    background-color: rgb( 175, 215, 200);
+    margin-top: 25px;
+}

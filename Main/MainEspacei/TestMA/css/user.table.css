@@ -1,0 +1,91 @@
+#page_complet
+{
+    width: 1225px;
+}
+
+#aidants
+{
+    width: 200px;
+    float: left;
+    margin-left: 15px;
+    margin-top : 5px;
+}
+
+#aidants h4
+{
+    text-align: center;
+}
+
+#page_complet
+{
+    width: 1225px;
+    margin: auto;
+}
+
+#main_users_table
+{
+    background-color: rgb( 232, 232, 232 );
+    border-radius : 10px;
+    height: 500px;
+    width: 200px;
+    margin-top: 15px;
+}
+
+#onglet_aidants
+{
+    height: 23px;
+    margin-left : -3px;
+    margin-top : -10px;
+    display: inline-block;
+    width: 57px;
+    text-align: center;
+}
+
+#onglet_chat
+{
+    height:23px;
+    width: 56px;
+    display: inline-block;
+    margin-left: 130px;
+    text-align: center;
+    margin-top: -35px;
+    border-top-right-radius: 10px;
+}
+
+.current_onglet
+{
+    background: rgb(212,212,212);
+}
+
+#status
+{
+    height: 27px;
+    width: 50px;
+    position: absolute;
+    border-top-left-radius: 10px;
+}
+
+#status p
+{
+    margin-left : 5px;
+}
+
+#status i
+{
+    margin-top: -27px;
+    margin-left: 30px;
+}
+
+#liste_aidants
+{
+    background-color: rgb( 175, 215, 200);
+    height: 475px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#liste_aidants p
+{
+    float: left;
+    margin-left : 5px;
+}
