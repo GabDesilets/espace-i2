@@ -11,7 +11,7 @@ function get_user_status()
 	//Boucle pour afficher tout les users
 	while($value = mysql_fetch_array($result_status))
 	{
-		echo '<a class="nom_aidants" href="#" title="Entrer en communication avec ' . $value['prenom'] . ' ' . $value['nom'] . '"><strong>'.$value['prenom'].'</a>  : </strong>'. $value['status'] .'<br/>';
+		echo '<p><a class="nom_aidants" href="#" title="Entrer en communication avec ' . $value['prenom'] . ' ' . $value['nom'] . '"><strong>'.$value['prenom'].'</a>  : </strong>'. $value['status'] .'</p>';
 	}
 }
 

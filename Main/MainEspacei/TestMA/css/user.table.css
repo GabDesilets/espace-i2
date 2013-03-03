@@ -129,7 +129,9 @@
 #liste_aidants p
 {
     float: left;
+    margin: 0px;
     margin-left : 5px;
+
 }
 
 #liste_aidants_etu
@@ -143,5 +145,6 @@
 #liste_aidants_etu p
 {
     float: left;
+    margin: 0px;
     margin-left : 5px;
 }
