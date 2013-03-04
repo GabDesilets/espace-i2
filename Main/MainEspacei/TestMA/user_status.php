@@ -25,9 +25,7 @@ function get_status() {
     $result_status = mysql_query($query_status);
 
     while($donnees = mysql_fetch_array($result_status)) {
-
         echo $donnees['status'];
-
     }
 
 }
