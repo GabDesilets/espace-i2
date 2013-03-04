@@ -61,7 +61,7 @@ if ( !isset($_SESSION['admin'] ) ) {
                 data:    {status: current_status},
                 success: function(data)
                 {
-                    data = data.substr(605);
+                    data = data.substr(569);
 					if(data != 'Deconnexion') {
 						$("#status_text").html(data);
 					}
