@@ -43,8 +43,8 @@ function connecter($login, $password)
 function get_etudiant( $where = null ) {
 
     // Connection à la base de données.  Cette façon de faire est temporaire
-	mysql_connect("localhost", "sitemeut_admin", "4C51d21f9C");
-	mysql_select_db("sitemeut_espace-i2");
+    $connection = mysql_connect('localhost','root','');
+    mysql_select_db('sitemeut_espace-i2',$connection);
 	
 	$query = "select * from etudiant ";
     if(isset($where))

@@ -6,9 +6,12 @@ dispatchCalendar();
 function dispatchCalendar()
 {
 
-    if(array_key_exists('action',$_POST))
+    if(array_key_exists('action',$_POST)||(array_key_exists('action',$_GET)))
     {
-        $action = $_POST['action'];
+        $action = isset($_POST['action'])
+            ? $_POST['action']
+            : $_GET['action'];
+
         switch ($action)
         {
             case "add":
@@ -38,6 +41,9 @@ function dispatchCalendar()
                 }
                 ajax_update_event_state($_POST['myEventIds'],$_POST['isAccepted'],$_POST['eventArrayIds'],$_POST['emp_id']);
             break;
+            case "show_dispo":
+                show_dispo();
+                break;
         }
     }
 }
@@ -85,6 +91,7 @@ function show_dispo($userId=NULL,$flForAccept=FALSE)
     $data = get_dispo();
     $num_row = mysql_num_rows($data);
     $ctr=0;
+
 //Sat Feb 23 2013 16:00:00 GMT-0500 (Est)
     while ($row = mysql_fetch_assoc($data)) {
         $code.='{';
@@ -108,8 +115,7 @@ function show_dispo($userId=NULL,$flForAccept=FALSE)
     {
         $code = Array();
     }
-
-    return $code;
+    echo  $code;
 }
 
 function delete($event_id)

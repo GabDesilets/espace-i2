@@ -538,4 +538,24 @@ var ids = new Array();
         });
     }
 
+    function fetchCalendar()
+    {
+        $.ajax({
+            type:    'GET',
+            url:     'get_events.php',
+            success: function(data)
+            {
+                console.log(data);
+                $('#fullcalendar').fullCalendar({
+                   events:[
+                       data
+                   ]
+                });
+
+            }
+
+        });
+    }
+var timer=setInterval("fetchCalendar()", 20000);
+
 </script>
