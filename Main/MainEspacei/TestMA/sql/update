@@ -1,0 +1,2 @@
+ALTER TABLE  `horaire_etu` CHANGE  `heuredebut`  `heuredebut` VARCHAR( 125 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL ,
+CHANGE  `heurefin`  `heurefin` VARCHAR( 125 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL

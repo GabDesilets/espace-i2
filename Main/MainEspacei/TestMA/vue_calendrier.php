@@ -1,7 +1,7 @@
 <?php session_start(); ?>
 <?php include_once 'calendrier.php'; ?>
 <?php include 'user_status.php'; ?>
-
+<!DOCTYPE html>
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">var ADMIN = <?php echo $_SESSION['admin'] ?>;</script>
 <script src="js/jquery-1.9.0.js"></script>
 <script src="js/jquery-ui-1.10.0.custom.min.js"></script>
@@ -48,7 +48,7 @@ if ( !isset($_SESSION['admin'] ) ) {
             });
 		});
         // Active le dropdown pour les status
-        $('.dropdown-toggle').dropdown()
+        $('.dropdown-toggle').dropdown();
 
         // Change le texte du status pour celui selectionner
         $(".status_btn").click(function(){
@@ -162,7 +162,7 @@ if ( !isset($_SESSION['admin'] ) ) {
             </div>
             <div id="liste_aidants">
 				<ul class="unstyled">
-					<?php echo get_user_status() ?>
+					<?php echo get_user_status(); ?>
 				</ul>
             </div>
         </div>
@@ -185,7 +185,7 @@ if ( !isset($_SESSION['admin'] ) ) {
             <div id="liste_aidants_etu">
                 <br>
                 <ul class="unstyled">
-                    <?php echo get_user_status() ?>
+                    <?php echo get_user_status(); ?>
                 </ul>
             </div>
         </div>
@@ -234,7 +234,7 @@ var ids = new Array();
             },
             selectable: true,
             selectHelper: true,
-            default: 'agendaDay',
+            //default: 'agendaDay',
 			axisFormat: 'H:mm',
             timeFormat:{
                 agenda: 'H'
@@ -389,6 +389,7 @@ var ids = new Array();
                 }
 
                save_ajax();
+
                 $( this ).dialog( "close" );
             },
             "Annuler": function() {
@@ -403,7 +404,7 @@ var ids = new Array();
                     {
                         $('#calendar').fullCalendar("removeEvents",  (eventIDDiag));
                         $('#calendar').fullCalendar("rerenderEvents");
-                        $('#message').show('slow')
+                        $('#message').show('slow');
                         $('#message').html('Disponibilité suprimmée avec succès <span class="closeDiv" onclick="closeDiv()"  style="float: right; cursor: pointer;">X</span>');
                     }
                 });
@@ -512,10 +513,12 @@ var ids = new Array();
             data:    {myEvents : evenements, action : 'add'},
             success: function(data)
             {
-
+                $('#calendar').fullCalendar( 'removeEvents').fullCalendar('removeEventSources');  //Removes all event sources
+                fetchCalendar();
             }
 
         });
+
     }
 
     function update_dispo_ajax(event)
@@ -548,9 +551,8 @@ var ids = new Array();
             {
                 console.log(data);
                 $('#fullcalendar').fullCalendar({
-                   events:[
-                       data
-                   ]
+                   events:[data]
+
                 });
 //oui jai commits
             }
