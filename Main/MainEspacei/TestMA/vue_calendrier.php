@@ -10,6 +10,7 @@
 <script src="js/jquery.loader-min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/design_vue_calendrier.js"></script>
+<script src="js/change_status.js" ></script>
 
 <link rel='stylesheet' type='text/css' href="css/jquery-ui-1.10.0.custom.min.css" />
 <link rel='stylesheet' type='text/css' href="fullcalendar-1.5.4/fullcalendar/fullcalendar.css" />
@@ -59,7 +60,8 @@ if ( !isset($_SESSION['admin'] ) ) {
                 url:     'change_user_status.php',
                 data:    {status: current_status},
                 success: function(data)
-                {					
+                {
+                    data = data.substr(569);
 					if(data != 'Deconnexion') {
 						$("#status_text").html(data);
 					}
@@ -137,7 +139,7 @@ if ( !isset($_SESSION['admin'] ) ) {
                     <div class="btn-group">
                         <button class="btn dropdown-toggle btn-mini" style="width: 60px; height: 25px;">
                             <span id="status_text">
-							En ligne
+							<?php get_status(); ?>
 							</span>
                             <span class="caret"></span>
                         </button>
@@ -159,7 +161,6 @@ if ( !isset($_SESSION['admin'] ) ) {
 				</div>				
             </div>
             <div id="liste_aidants">
-                <br>
 				<ul class="unstyled">
 					<?php echo get_user_status() ?>
 				</ul>
