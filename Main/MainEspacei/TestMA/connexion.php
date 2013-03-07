@@ -67,7 +67,15 @@ function add_status($uid) {
 	
 	mysql_connect("localhost", "sitemeut_admin", "4C51d21f9C");
 	mysql_select_db("sitemeut_espace-i2");
-	
-	mysql_query("insert into `user_status` VALUES(".$uid.", 'En ligne')") or die(mysql_error());
+
+    $result = mysql_query("SELECT COUNT(`uid`) FROM `user_status` WHERE `uid` = " . $uid);
+    $count = mysql_result($result,0);
+    if( $count == 0 ) {
+        mysql_query("insert into `user_status` VALUES(".$uid.", 'En ligne')") or die(mysql_error());
+    }
+    else {
+        mysql_query("UPDATE `user_status` SET `status` = 'En ligne' WHERE `uid` = " . $uid) or die(mysql_error());
+    }
+
 	
 }
