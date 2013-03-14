@@ -10,7 +10,6 @@
 <script src="js/jquery.loader-min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/design_vue_calendrier.js"></script>
-<script src="js/change_status.js" ></script>
 
 <link rel='stylesheet' type='text/css' href="css/jquery-ui-1.10.0.custom.min.css" />
 <link rel='stylesheet' type='text/css' href="fullcalendar-1.5.4/fullcalendar/fullcalendar.css" />
@@ -30,12 +29,16 @@ if ( !isset($_SESSION['admin'] ) ) {
 }
 ?>
 <script>
-
+    var current_tab = null;
     $(document).ready(function(){
+
+        /* Permet de mettre un beau tooltip en bas du nom de chaque aidants. */
+        $(".nom_aidants").tooltip();
 
 		/* Permet de changer d'onglet -> Aidants -> Chat */
 		$(".onglets").click(function(){
 			var current_onglet = $(this).attr('id');
+            current_tab = current_onglet;
 			$.ajax({
                 type:    'POST',
 				dataType: 'html',
@@ -43,7 +46,13 @@ if ( !isset($_SESSION['admin'] ) ) {
                 data:    {onglet: current_onglet},
                 success: function(data)
                 {
-                    $("#liste_aidants").html(data);
+                    if(current_onglet == "onglet_chat_etu" || current_onglet == "onglet_aidants_etu") {
+                        $("#liste_aidants_etu").html(data);
+                    }
+                    else {
+                        $("#liste_aidants").html(data);
+                    }
+
                 }
             });
 		});
@@ -61,7 +70,6 @@ if ( !isset($_SESSION['admin'] ) ) {
                 data:    {status: current_status},
                 success: function(data)
                 {
-                    data = data.substr(569);
 					if(data != 'Deconnexion') {
 						$("#status_text").html(data);
 					}
@@ -100,9 +108,9 @@ if ( !isset($_SESSION['admin'] ) ) {
 			<fieldset>
 				<legend><h5>Vous êtes connecté sur</h5></legend>
 				<form method="post" action="">
-					<ul class="unstyled" style="font-size: 12px;">
-						<li><input type="radio" name="connecter_sur" value="Portable">Portable</li>
-						<li><input type="radio" name="connecter_sur" value="Ordinateur de bureau">Ordinateur de bureau</li><br>
+                    <ul class="unstyled" style="font-size: 12px;">
+						<li><label for="Portable" class="radio"><input type="radio" name="connecter_sur" id="Portable" value="Portable">Portable</label></li>
+						<li><label for="Ordinateur" class="radio"><input type="radio" name="connecter_sur" id="Ordinateur" value="Ordinateur de bureau">Ordinateur de bureau</label></li><br>
 					<ul>
 				</form>
 			</fieldset>
@@ -112,19 +120,21 @@ if ( !isset($_SESSION['admin'] ) ) {
 				<legend><h5>Où vous trouvez-vous</h5></legend>
 				<form method="post" action="">
 					<ul class="unstyled" style="font-size: 12px;">
-						<li><input type="radio" name="localisation" value="Domicile">Domicile</li>
-						<li><input type="radio" name="localisation" value="Cégep">Cégep</li>
-						<li><input type="radio" name="localisation" value="Autre">Autre</li>
+						<li><label for="Domicile" class="radio"><input type="radio" name="localisation" id="Domicile" value="Domicile">Domicile</label></li>
+						<li><label for="Cegep" class="radio"><input type="radio" name="localisation" id="Cegep" value="Cégep">Cégep</label></li>
+						<li><label for="Autre" class="radio"><input type="radio" name="localisation" id="Autre" value="Autre">Autre</label></li>
 					</ul>
 				</form>
 			</fieldset>
 		</div>
 		
 		<div style="display: block;" id="Acceptation_cond_utilsation">
-			<input type="checkbox" name="accept_cond_util" value="accept" required><span style="font-size : 12px;">  J’accepte avoir lu et compris les termes et conditions d’utilisation des services du Centre de dépannage en informatique,<br>je comprends que le Centre de dépannage en informatique ne peut être tenu responsable des erreurs et perturbations occasionnées par ses interventions.<br>Je confirme que la demande d’aide ne contrevient aucunement aux règlements du collège tel que le règlement relatif au plagiat et à la fraude.</span>
-		</div>
+			<label for="accept_cond_util" class="radio">
+                <input type="checkbox" id="accept_cond_util" name="accept_cond_util" value="accept" style="margin-left : -17px" required><span style="font-size : 12px;">  J’accepte avoir lu et compris les termes et conditions d’utilisation des services du Centre de dépannage en informatique,<br>je comprends que le Centre de dépannage en informatique ne peut être tenu responsable des erreurs et perturbations occasionnées par ses interventions.<br>Je confirme que la demande d’aide ne contrevient aucunement aux règlements du collège tel que le règlement relatif au plagiat et à la fraude.</span>
+		    </label>
+        </div>
 	</div>
-	
+
 </div>
 
 
@@ -207,6 +217,7 @@ var ids = new Array();
         var eventIDDiag;
     });
     $(document).ready(function() {
+        current_tab = "onglet_aidants";
 
         $(function() {
             $( document ).tooltip();
@@ -415,29 +426,65 @@ var ids = new Array();
 	
 	
 	// Permet de faire afficher les conditions d'utilisation si l'on clique sur un aidants
-	$(".nom_aidants").click(function(){
-		$( "#condition_utilisation" ).dialog( "open" );
-	});
+    // Après le refresh automatique
+	function get_infos () {
+        $( "#condition_utilisation" ).dialog( "open" );
+    }
+    // Avant le refresh automatique
+    $(".nom_aidants").click(function(){
+        $( "#condition_utilisation" ).dialog( "open" );
+    });
 	// Paramètres pour l'affichage des conditions d'utilisation
 	$( "#condition_utilisation" ).dialog({
         autoOpen: false,
-        height: 625,
-        width: 850,
+        height: 650,
+        width: 700,
         modal: true,
         buttons: {
             "Accepter": function()
             {
                 var connection_choice =  $("input[name='connecter_sur']:checked").val();
                 var localisation_choice =  $("input[name='localisation']:checked").val();
-                var accept_cond_util =  $("input[name='accept_cond_util']").val();
+                var accept_cond_util =  $("input[name='accept_cond_util']:checked").val();
 				if(connection_choice && accept_cond_util && localisation_choice)
                 {
+                    $.ajax({
+                        type:    'POST',
+                        url:     'connexion_aidant.php',
+                        data:    {choix_connexion: connection_choice, choix_localisation : localisation_choice},
+                        success: function(data)
+                        {
+                            if(data) {
+                                var admin = <?php echo $_SESSION['admin'];?>;
+                                if(admin == 1) {
+                                    $("#main_users_table").css("width", "400px");
+                                    $("#aidants").css("width", "400px");
+                                    $("#calendar").css("width", "800px");
+                                    $("#onglet_chat").css("display", "block");
+                                    $("#onglet_chat").css("width", "152px");
+                                    $("#onglet_chat").css("margin-left", "234px");
+                                    $("#onglet_aidants").css("width", "161px");
+                                }
+                                else {
+                                    $("#main_users_table_etu").css("width", "400px");
+                                    $("#aidants").css("width", "400px");
+                                    $("#calendar").css("width", "800px");
+                                    $("#onglet_chat_etu").css("display", "block");
+                                    $("#onglet_chat_etu").css("width", "186px");
+                                    $("#onglet_chat_etu").css("margin-left", "200px");
+                                    $("#onglet_aidants_etu").css("width", "187px");
+                                }
+                            }
+                            else {
+                                alert("Un problème est survenu. Veuillez réessayer plus tard.");
+                            }
+                        }
+                    });
                     $( this ).dialog( "close" );
-                    alert('La session commencera sous peu');
                 }
                 else
                 {
-                    alert("Vous devez ");
+                    alert("Vous devez fournir toutes les informations requises et accepter les conditions d'utilisations avant d'entrer en communication avec un aidant");
                 }
 
             },
@@ -561,4 +608,24 @@ var ids = new Array();
     }
 var timer=setInterval("fetchCalendar()", 20000);
 
+
+function refresh_status_js() {
+
+    if(current_tab == "onglet_aidants")
+    {
+        $.ajax({
+            type:    'POST',
+            dataType: 'html',
+            url:     'refresh_status.php',
+            success: function(data)
+            {
+                $("#liste_aidants").html(data);
+            }
+        }); // fin ajax
+    }
+
+
+} // fin function
+
+var timer=setInterval("refresh_status_js()", 5000); // r�p�te toutes les 5s
 </script>

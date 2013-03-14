@@ -1,2 +1,9 @@
 ALTER TABLE  `horaire_etu` CHANGE  `heuredebut`  `heuredebut` VARCHAR( 125 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL ,
 CHANGE  `heurefin`  `heurefin` VARCHAR( 125 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL
+
+CREATE TABLE connexion_aidant(
+`id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+`uid` INTEGER,
+`connect_sur`VARCHAR(20),
+`localisation` VARCHAR(20)
+);

@@ -20,5 +20,4 @@
         $("#onglet_chat").css("margin-left", "130px");
         $("#onglet_aidants").css("width", "57px");
 	});
-		
 });

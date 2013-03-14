@@ -1,6 +1,5 @@
 <?php
 session_start();
-include 'js/change_status.js';
 $current_status = $_POST['status'];
 
 mysql_connect("localhost", "root", "");

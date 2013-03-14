@@ -41,7 +41,7 @@ function getXMLHttpRequest() {
 
 function refreshChat()
 {
-    if (current_onglet == 'onglet_chat') {
+    if (current_onglet == 'onglet_chat' || current_onglet == 'onglet_chat_etu') {
         var xhr = getXMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
