@@ -10,6 +10,8 @@
 <script src="js/jquery.loader-min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/design_vue_calendrier.js"></script>
+<script src="js/change_status.js" ></script>
+<script src="js/xdate.js" ></script>
 
 <link rel='stylesheet' type='text/css' href="css/jquery-ui-1.10.0.custom.min.css" />
 <link rel='stylesheet' type='text/css' href="fullcalendar-1.5.4/fullcalendar/fullcalendar.css" />
@@ -217,22 +219,6 @@ var ids = new Array();
         var eventIDDiag;
     });
     $(document).ready(function() {
-        current_tab = "onglet_aidants";
-
-        $(function() {
-            $( document ).tooltip();
-        });
-
-        var saving = <?php if(isset($_SESSION['saveSuccess'])){
-            echo ($_SESSION['saveSuccess'])?"true":"false";
-        }
-        else
-        {
-            echo "false";
-        }
-        $_SESSION['saveSuccess']=false;
-        ?>;
-
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
@@ -246,10 +232,15 @@ var ids = new Array();
             selectable: true,
             selectHelper: true,
             //default: 'agendaDay',
-			axisFormat: 'H:mm',
-            timeFormat:{
-                agenda: 'H'
+
+            axisFormat: 'HH:mm',
+            timeFormat: {
+                agenda: 'H:mm{ - h:mm}'
             },
+            dragOpacity: {
+                agenda: .5
+            },
+
             monthNames: [
             "Janvier", "Février", "Mars",
             "Avril", "Mai", "Juin",
@@ -259,6 +250,7 @@ var ids = new Array();
             dayNames: [ 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
             dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
             allDaySlot: false,
+            allDay:false,
 			slotMinutes: 5,
 			minTime: 8,
 			maxTime: 20,
@@ -299,9 +291,7 @@ var ids = new Array();
 
             },
            editable: ADMIN ==1 ? true:false,
-            events: [
-                <?php echo show_dispo();   ?>
-            ],
+            events:'get_events.php',
 
             eventTextColor: '#000000',
             eventClick: function(event)
@@ -315,22 +305,22 @@ var ids = new Array();
 
                     $( "#dialog-form" ).dialog( "open" );
                 }
-                else
-                {
-                    if(event.backgroundColor == '#4b95e5')
-                    {
-                        event.backgroundColor =  '#4AB840';
-                        var index = ids.indexOf(event.id);
-                        ids.splice(index, 1);
-
-                    }
-                    else
-                    {
-                        event.backgroundColor = '#4b95e5';
-                        ids.push(event.id);
-                    }
-                    $('#calendar').fullCalendar( 'render' );
-                }
+//                else
+//                {
+//                    if(event.backgroundColor == '#4b95e5')
+//                    {
+//                        event.backgroundColor =  '#4AB840';
+//                        var index = ids.indexOf(event.id);
+//                        ids.splice(index, 1);
+//
+//                    }
+//                    else
+//                    {
+//                        event.backgroundColor = '#4b95e5';
+//                        ids.push(event.id);
+//                    }
+//                    $('#calendar').fullCalendar( 'render' );
+//                }
 
             },
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
@@ -349,11 +339,7 @@ var ids = new Array();
         $('#calendar').fullCalendar( 'render' );
 
         var calendar_info = $('#calendar').fullCalendar( 'clientEvents');
-        if(saving)
-        {
-            $('#message').show('slow');
-            $('#message').html('Modifications enregistrées avec succès <span class="closeDiv"  onclick="closeDiv()"  style="float: right; cursor: pointer;">X</span>');
-        }
+
     });
 	
     $( "#dialog-form" ).dialog({
@@ -370,7 +356,7 @@ var ids = new Array();
                 var calendar = $('#calendar');
                 var backCol,borderCol;
 
-                backCol="#4AB840";
+               // backCol="#4AB840";
                 borderCol="#008238";
 
                 if(eventIDDiag==null)
@@ -382,7 +368,6 @@ var ids = new Array();
                             detail  : descDiag,
                             start   : startDiag,
                             end     : endDiag,
-                            backgroundColor:backCol,
                             borderColor:borderCol,
                             allDay : false
                         },
@@ -394,7 +379,6 @@ var ids = new Array();
                 {
                     calendar.fullCalendar( 'clientEvents' ,eventIDDiag)[0].detail=descDiag;
                     calendar.fullCalendar( 'clientEvents' ,eventIDDiag)[0].title=titleDiag;
-                    calendar.fullCalendar( 'clientEvents' ,eventIDDiag)[0].backgroundColor=backCol;
                     calendar.fullCalendar( 'clientEvents' ,eventIDDiag)[0].borderColor=borderCol;
                     calendar.fullCalendar("rerenderEvents");
                 }
@@ -537,18 +521,16 @@ var ids = new Array();
         };
 
         var today = new Date();
-
         for(var i=0;i<calendar_info.length;i++)
         {
-
             var data = {
                 'empId' : <?php echo $_SESSION['uid'] ?>,
                 'title' :calendar_info[i].title,
                 'detail': calendar_info[i].detail,
-                'start' : calendar_info[i].start,
+                'start' :$.fullCalendar.formatDate( calendar_info[i].start,'yyyy-MM-dd HH:mm'),
                 'id'    : calendar_info[i]._id,
                 'allDay': calendar_info[i].allDay,
-                'end'   : calendar_info[i].end,
+                'end'   : $.fullCalendar.formatDate( calendar_info[i].end,'yyyy-MM-dd HH:mm'),
                 'accepte':false
             };
             evenements.push(data);
@@ -591,20 +573,7 @@ var ids = new Array();
 
     function fetchCalendar()
     {
-        $.ajax({
-            type:    'GET',
-            url:     'get_events.php',
-            success: function(data)
-            {
-                console.log(data);
-                $('#fullcalendar').fullCalendar({
-                   events:[data]
-
-                });
-//oui jai commits
-            }
-
-        });
+        $('#calendar').fullCalendar( 'refetchEvents' );
     }
 var timer=setInterval("fetchCalendar()", 20000);
 
