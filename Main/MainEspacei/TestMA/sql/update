@@ -1,2 +1,13 @@
-ALTER TABLE  `horaire_etu` CHANGE  `heuredebut`  `heuredebut` VARCHAR( 125 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL ,
-CHANGE  `heurefin`  `heurefin` VARCHAR( 125 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL
+CREATE TABLE IF NOT EXISTS `temps_travail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `etu_id` int(11) NOT NULL,
+  `work_day` date NOT NULL,
+  `from_hour` int(2) DEFAULT NULL,
+  `to_hour` int(2) DEFAULT NULL,
+  `from_min` int(2) DEFAULT NULL,
+  `to_min` int(2) DEFAULT NULL,
+  `comment` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `etu_id` (`etu_id`,`work_day`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

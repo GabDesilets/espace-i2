@@ -1,9 +1,8 @@
 <?php
 function get_user_status()
 {
-	mysql_connect("localhost", "root", "");
-	mysql_select_db("sitemeut_espace-i2");
-
+    $connection = mysql_connect('localhost','root','toor');
+    mysql_select_db('sitemeut_espace-i2',$connection);
 	//Requ�te
 	$query_status = "SELECT * FROM etudiant, user_status WHERE user_status.uid = etudiant.id";
 	$result_status = mysql_query($query_status);
@@ -18,8 +17,8 @@ function get_user_status()
 
 function get_status() {
 
-    mysql_connect("localhost", "root", "");
-    mysql_select_db("sitemeut_espace-i2");
+    $connection = mysql_connect('localhost','root','toor');
+    mysql_select_db('sitemeut_espace-i2',$connection);
 
     $query_status = "SELECT `status` FROM user_status WHERE uid = " . $_SESSION['uid'];
     $result_status = mysql_query($query_status);
