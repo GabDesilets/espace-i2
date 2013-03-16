@@ -10,7 +10,6 @@
 <script src="js/jquery.loader-min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/design_vue_calendrier.js"></script>
-<script src="js/change_status.js" ></script>
 <script src="js/xdate.js" ></script>
 
 <link rel='stylesheet' type='text/css' href="css/jquery-ui-1.10.0.custom.min.css" />
@@ -93,8 +92,12 @@ if ( !isset($_SESSION['admin'] ) ) {
         <textarea rows="4" cols="30" name="description" id="description"></textarea>
     </fieldset>
 </div>
+<div id="dialog-Notice" title="Demande d'aide">
+    <p>Une personne souhaite entrer en contacte avec vous.</p>
+</div>
 
 <div id="condition_utilisation" title="Conditions d'utilisation">
+    <input type="hidden" id="chosen_helper" value="">
 	<h3 class="text-center">Conditions d'utilisation</h3>
 	<ol style="font-size: 12px;">
 		<li>Le service de dépannage en informatique s’adresse seulement aux étudiants inscrits au Cégep de Trois-Rivières.</li>
@@ -267,11 +270,8 @@ var ids = new Array();
             eventMouseover: function(event, jsEvent, view) {
                 if (view.name !== 'agendaDay')
                 {
-                    $(jsEvent.target).attr('title', event.detail);
+                    $(jsEvent.target).attr('title', event.title);
                 }
-            },
-            eventRender: function(event, element) {
-                element.find('.fc-event-title').append("<br/>" + event.detail);
             },
             select: function(start, end, allDay) {
 
@@ -305,22 +305,6 @@ var ids = new Array();
 
                     $( "#dialog-form" ).dialog( "open" );
                 }
-//                else
-//                {
-//                    if(event.backgroundColor == '#4b95e5')
-//                    {
-//                        event.backgroundColor =  '#4AB840';
-//                        var index = ids.indexOf(event.id);
-//                        ids.splice(index, 1);
-//
-//                    }
-//                    else
-//                    {
-//                        event.backgroundColor = '#4b95e5';
-//                        ids.push(event.id);
-//                    }
-//                    $('#calendar').fullCalendar( 'render' );
-//                }
 
             },
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
@@ -365,7 +349,6 @@ var ids = new Array();
                         {
                             id      : 'fake_id'+randomString(10),
                             title   : titleDiag,
-                            detail  : descDiag,
                             start   : startDiag,
                             end     : endDiag,
                             borderColor:borderCol,
@@ -377,7 +360,6 @@ var ids = new Array();
                 }
                 else
                 {
-                    calendar.fullCalendar( 'clientEvents' ,eventIDDiag)[0].detail=descDiag;
                     calendar.fullCalendar( 'clientEvents' ,eventIDDiag)[0].title=titleDiag;
                     calendar.fullCalendar( 'clientEvents' ,eventIDDiag)[0].borderColor=borderCol;
                     calendar.fullCalendar("rerenderEvents");
@@ -399,8 +381,6 @@ var ids = new Array();
                     {
                         $('#calendar').fullCalendar("removeEvents",  (eventIDDiag));
                         $('#calendar').fullCalendar("rerenderEvents");
-                        $('#message').show('slow');
-                        $('#message').html('Disponibilité suprimmée avec succès <span class="closeDiv" onclick="closeDiv()"  style="float: right; cursor: pointer;">X</span>');
                     }
                 });
                 $( this ).dialog( "close" );
@@ -411,8 +391,9 @@ var ids = new Array();
 	
 	// Permet de faire afficher les conditions d'utilisation si l'on clique sur un aidants
     // Après le refresh automatique
-	function get_infos () {
+	function get_infos (helper_id) {
         $( "#condition_utilisation" ).dialog( "open" );
+        $('#chosen_helper').val(helper_id);
     }
     // Avant le refresh automatique
     $(".nom_aidants").click(function(){
@@ -439,6 +420,7 @@ var ids = new Array();
                         success: function(data)
                         {
                             if(data) {
+                                notifyHelper($('#chosen_helper').val());
                                 var admin = <?php echo $_SESSION['admin'];?>;
                                 if(admin == 1) {
                                     $("#main_users_table").css("width", "400px");
@@ -478,6 +460,79 @@ var ids = new Array();
         }
     });
 
+//Dialog for the notice that the current helper will receive when someone ask for help with this specific person.
+    $( "#dialog-Notice" ).dialog({
+        autoOpen: false,
+        height: 225,
+        width: 500,
+        modal: true,
+        buttons: {
+            "Accepter": function(){
+                helperRespondNotice('is_accepted');
+                $( this ).dialog( "close" );
+            },
+            "Refuser": function() {
+                helperRespondNotice('is_refused');
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+
+/** Send the respond of the helper, either he accept or refuse
+ * @param respond
+ */
+    function helperRespondNotice(respond){
+        helper_id = <?php echo $_SESSION['uid'];?>;
+        $.ajax({
+            type:    'POST',
+            url:     'helper_notification.php',
+            dataType:'Json',
+            data:    {helper_id:helper_id,action:'setRespond',respond:respond},
+            success: function(data)
+            {
+
+            }
+        });
+    }
+/**
+ * We add a notice to the helper that someone requested his help
+ * @param helper_id
+ */
+    function notifyHelper(helper_id){
+        $.ajax({
+            type:    'POST',
+            url:     'helper_notification.php',
+            dataType:'Json',
+            data:    {helper_id:helper_id,action:'add'},
+            success: function(data)
+            {
+
+            }
+        });
+    }
+
+/**
+ * Get the notice for the current logged user show the notice to him and with the dialog and can
+ * now decide what he will be doing , refered function => helperRespondNotice
+ */
+    function getNoticeForHelper(){
+        <?php if($_SESSION['admin'] == 1):?>
+            hID = <?php echo $_SESSION['uid'];?>;
+            $.ajax({
+                type:    'GET',
+                url:     'helper_notification.php',
+                dataType:'Json',
+                data:    {helper_id:hID,action:'getNotice'},
+                success: function(data)
+                {
+                    if(data.haveNotice){
+                        $( "#dialog-Notice" ).dialog('open');
+                    }
+                }
+            });
+        <?php endif;?>
+    }
     function randomString(length) {
         var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
 
@@ -490,11 +545,6 @@ var ids = new Array();
             str += chars[Math.floor(Math.random() * chars.length)];
         }
         return str;
-    }
-
-    function closeDiv()
-    {
-        $('#message').hide('slow');
     }
 
     function save_ajax()
@@ -526,12 +576,10 @@ var ids = new Array();
             var data = {
                 'empId' : <?php echo $_SESSION['uid'] ?>,
                 'title' :calendar_info[i].title,
-                'detail': calendar_info[i].detail,
                 'start' :$.fullCalendar.formatDate( calendar_info[i].start,'yyyy-MM-dd HH:mm'),
                 'id'    : calendar_info[i]._id,
                 'allDay': calendar_info[i].allDay,
-                'end'   : $.fullCalendar.formatDate( calendar_info[i].end,'yyyy-MM-dd HH:mm'),
-                'accepte':false
+                'end'   : $.fullCalendar.formatDate( calendar_info[i].end,'yyyy-MM-dd HH:mm')
             };
             evenements.push(data);
         }
@@ -542,7 +590,6 @@ var ids = new Array();
             data:    {myEvents : evenements, action : 'add'},
             success: function(data)
             {
-                $('#calendar').fullCalendar( 'removeEvents').fullCalendar('removeEventSources');  //Removes all event sources
                 fetchCalendar();
             }
 
@@ -575,7 +622,7 @@ var ids = new Array();
     {
         $('#calendar').fullCalendar( 'refetchEvents' );
     }
-var timer=setInterval("fetchCalendar()", 20000);
+var timer=setInterval("fetchCalendar()", 21010);// every 21.1sec
 
 
 function refresh_status_js() {
@@ -597,4 +644,5 @@ function refresh_status_js() {
 } // fin function
 
 var timer=setInterval("refresh_status_js()", 5000); // r�p�te toutes les 5s
+var timer=setInterval("getNoticeForHelper()", 20000); // refresh every 20sec
 </script>

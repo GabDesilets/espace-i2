@@ -4,13 +4,14 @@
  * User: Gabriel
  * Date: 02/03/13
  * Time: 6:33 PM
- * To change this template use File | Settings | File Templates.
  */
 $connection = mysql_connect('localhost','root','toor');
 mysql_select_db('sitemeut_espace-i2',$connection);
 
 
-$query = "select * from horaire_etu ";
+$query = "select he.*, CONCAT_WS(' ',e.prenom,e.nom) as nom
+          from horaire_etu he
+          JOIN etudiant e on e.id = he.etu_id";
 
 $result =  mysql_query($query);
 
@@ -25,7 +26,7 @@ while($row = mysql_fetch_array($result, MYSQL_ASSOC))
     // Stores each database record to an array
     $buildjson = array(
         'id' => intval($row['id']),
-        'title' => 'derptest',
+        'title' =>$row['nom'],
         'start' => "$start",
         'end'=>"$end",
         'allDay' => false

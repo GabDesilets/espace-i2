@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1755863946">
+    <data-source source="LOCAL" name="Data Source" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="97de883c-0ef3-4932-89a7-8b06944a433b">
+      <synchronize>true</synchronize>
+      <jdbc-url>jdbc://</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+
