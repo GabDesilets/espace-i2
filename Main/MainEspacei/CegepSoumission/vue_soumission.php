@@ -36,6 +36,17 @@ if(!session_id())
                 <br> Département d'informatique
                 <br>Soumission de projet
             </legend>
+        <?php if(isset($_SESSION['err_send_osbl_mail'])): ?>
+            <div class="alert alert-error" style="width: 1000px">
+                <?php echo $_SESSION['err_send_osbl_mail'] ?>
+            </div>
+        <?php endif; ?>
+        <?php if(isset($_SESSION['success_send_submission'])): ?>
+            <div class="alert alert-success" style="width: 1000px">
+                <?php echo $_SESSION['success_send_submission'] ?>
+            </div>
+        <?php endif; ?>
+
             <div class="control-group">
             <label class="control-label" for="osbl_nom">Nom de l'organisme</label>
             <div class="controls">

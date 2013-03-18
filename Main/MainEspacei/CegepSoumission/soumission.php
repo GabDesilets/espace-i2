@@ -192,11 +192,11 @@ $message = $email['message'];
          $message.="--{$mime_boundary}--\n";
 
 if (mail($to, $subject, $message, $headers)){
-    echo "Mail sent successfully.";
     send_osbl_respond($email['osbl_email']);
 }
 else{
-    echo "Error in mail";
+    $_SESSION['err_send_osbl_mail']='Une erreur erreur est survenue lors de l\'envoie du couriel reesayer plus tard.';
+    header("Location: vue_soumission.php");
 }
 
 
@@ -212,7 +212,14 @@ function send_osbl_respond($osbl_email){
         'Reply-To:noreply' . "\r\n" .
         'X-Mailer: PHP/' . phpversion();
 
-    mail($to, $subject, $message, $headers);
+    if( mail($to, $subject, $message, $headers)){
+        $_SESSION['success_send_submission']='Votre soumission a ete envoyee.';
+        header("Location: vue_soumission.php");
+    }
+    else{
+        $_SESSION['err_send_osbl_mail']='Une erreur erreur est survenue lors de l\'envoie du couriel reesayer plus tard.';
+        header("Location: vue_soumission.php");
+    }
 
 }
 function get_villes()
