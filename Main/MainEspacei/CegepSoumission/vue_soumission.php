@@ -1,4 +1,4 @@
-<?php include_once('test.php');
+<?php include_once('soumission.php');
 if(!session_id())
 {
     session_start();
@@ -23,13 +23,13 @@ if(!session_id())
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="docs/assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="docs/assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="docs/assets/ico/apple-touch-icon-57-precomposed.png">
-    <link rel="shortcut icon" href="docs/assets/ico/favicon.png">
+    <link rel="shortcut icon" href="favicon.png">
     <script src="docs/assets/js/jquery.js"></script>
 
     <title>Espace-i Soumission de projet</title>
 </head>
 <body>
-    <form enctype="multipart/form-data"  method="POST" action="test.php" class="form-inline form-horizontal" accept-charset='UTF-8'>
+    <form enctype="multipart/form-data"  method="POST" action="soumission.php" class="form-inline form-horizontal" accept-charset='UTF-8'>
         <img src="img/logo_top_cegeptr.jpg">
             <legend class="text-center">
                 Espace-i
@@ -223,6 +223,7 @@ if(!session_id())
        }
         else
        {
+           $('#other_choice').val('');
            $('#other_choice').hide("fast");
        }
     });

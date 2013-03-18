@@ -95,7 +95,7 @@ function _run_validation($data = array())
         $_SESSION['err_osbl_email'] ="Courriel invalide. Exemple : mon_courriel@gmail.com";
 
     }
-    if($data['private_email'] &&  !preg_match("/^([1]-)?[0-9]{3}-[0-9]{3}-[0-9]{4}$/i", $data['private_email']))
+    if($data['private_email'] &&  !preg_match("/^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,3})$/i", $data['private_email']))
     {
         $all_good = FALSE;
         $_SESSION['err_private_email'] ="Courriel invalide. Exemple : mon_courriel@gmail.com";
@@ -122,7 +122,6 @@ function set_session_return_value($data)
 
         $_SESSION['var'][$k]=$v;
     }
-   // die(var_dump($_SESSION['var']['files']));
 }
 function formatBytes($bytes, $precision = 2)
    {
@@ -192,11 +191,28 @@ $message = $email['message'];
 
          $message.="--{$mime_boundary}--\n";
 
-if (mail($to, $subject, $message, $headers))
+if (mail($to, $subject, $message, $headers)){
     echo "Mail sent successfully.";
-else
+    send_osbl_respond($email['osbl_email']);
+}
+else{
     echo "Error in mail";
+}
 
+
+
+}
+
+function send_osbl_respond($osbl_email){
+
+    $to      = $osbl_email;
+    $subject = 'Suivie de la demande.';
+    $message = 'Bonjour ! Ceci est pour vous informer que votre soumission a ete envoyee';
+    $headers = 'From: espace_i@cegeptr.com' . "\r\n" .
+        'Reply-To:noreply' . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+
+    mail($to, $subject, $message, $headers);
 
 }
 function get_villes()
