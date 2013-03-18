@@ -110,18 +110,29 @@ function _run_validation($data = array())
 
 }
 
-function set_session_return_value($data)
+function set_session_return_value($data,$reset = FALSE)
 {
     if(!session_id())
     {
         session_start();
     }
-
-    foreach($data as $k=>$v)
+    switch (TRUE)
     {
+        case $reset:
+            foreach($data as $k=>$v)
+            {
+                $_SESSION['var'][$k]=NULL;
+            }
+            break;
 
-        $_SESSION['var'][$k]=$v;
+        case !$reset:
+            foreach($data as $k=>$v)
+            {
+                $_SESSION['var'][$k]=$v;
+            }
+            break;
     }
+
 }
 function formatBytes($bytes, $precision = 2)
    {
@@ -192,7 +203,7 @@ $message = $email['message'];
          $message.="--{$mime_boundary}--\n";
 
 if (mail($to, $subject, $message, $headers)){
-    send_osbl_respond($email['osbl_email']);
+    send_osbl_respond($email['osbl_email'],$email);
 }
 else{
     $_SESSION['err_send_osbl_mail']='Une erreur erreur est survenue lors de l\'envoie du couriel reesayer plus tard.';
@@ -203,7 +214,7 @@ else{
 
 }
 
-function send_osbl_respond($osbl_email){
+function send_osbl_respond($osbl_email,$email){
 
     $to      = $osbl_email;
     $subject = 'Suivie de la demande.';
@@ -213,6 +224,7 @@ function send_osbl_respond($osbl_email){
         'X-Mailer: PHP/' . phpversion();
 
     if( mail($to, $subject, $message, $headers)){
+        set_session_return_value($email,TRUE);
         $_SESSION['success_send_submission']='Votre soumission a ete envoyee.';
         header("Location: vue_soumission.php");
     }
