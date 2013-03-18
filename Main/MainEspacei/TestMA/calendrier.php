@@ -51,38 +51,37 @@ function dispatchCalendar()
 
 function add($calendriers)
 {
+    if(!session_id())
+    {
+        session_start();
+    }
+
     $data = Array();
 
     foreach ($calendriers['myEvents'] as $evenement)
     {
-       $isFromEdit = FALSE;
+        if($evenement['empId'] == $_SESSION['uid']){
 
-       if(is_numeric($evenement['id']))
-       {
-           update($evenement);
-           $isFromEdit = TRUE;
-       }
-       else
-       {
-           if(preg_match('/^fake_id/', $evenement['id']))
-           {
-               unset($evenement['id']);
+            if(is_numeric($evenement['id']))
+            {
+                update($evenement);
+            }
+            else
+            {
+                if(preg_match('/^fake_id/', $evenement['id']))
+                {
+                    unset($evenement['id']);
 
-               $data['etu_id'] = $evenement['empId'];
-               $data['heuredebut'] = $evenement['start'];
-               $data['heurefin'] =  $evenement['end'];
+                    $data['etu_id'] = $evenement['empId'];
+                    $data['heuredebut'] = $evenement['start'];
+                    $data['heurefin'] =  $evenement['end'];
 
-               $id = insert_dispo($data);
-           }
-
-
-       }
-
+                    $id = insert_dispo($data);
+                }
+            }
+        }
 
     }
-
-###########################################################################################################
-    $_SESSION['saveSuccess']=true;
 }
 
 function show_dispo($userId=NULL,$flForAccept=FALSE)
@@ -136,7 +135,14 @@ function delete($event_id)
 
 function update($data)
 {
-    update_dispo($data);
+    if(!session_id())
+    {
+        session_start();
+    }
+    if($data['empId'] == $_SESSION['uid']){
+        update_dispo($data);
+    }
+
 }
 
 function getNotAcceptedDispo($uid)

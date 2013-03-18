@@ -213,6 +213,7 @@ if ( !isset($_SESSION['admin'] ) ) {
 
 <script type="text/javascript">
 var ids = new Array();
+var USER_ID  = <?php echo $_SESSION['uid'];?>;
     $(function(){
         var startDiag;
         var endDiag;
@@ -232,7 +233,7 @@ var ids = new Array();
                 center: 'title',
                 right: 'agendaDay, agendaWeek'
             },
-            selectable: true,
+            selectable:  ADMIN ==1 ? true:false,
             selectHelper: true,
             //default: 'agendaDay',
 
@@ -273,7 +274,7 @@ var ids = new Array();
                     $(jsEvent.target).attr('title', event.title);
                 }
             },
-            select: function(start, end, allDay) {
+            select: function(start, end, allDay,event) {
 
                 if(ADMIN == 1)
                 {
@@ -296,7 +297,7 @@ var ids = new Array();
             eventTextColor: '#000000',
             eventClick: function(event)
             {
-                if(ADMIN ==1)
+                if(ADMIN ==1 && USER_ID == event.uid)
                 {
                     $("#description").val(event.detail);
                     $("#title").val(event.title);
@@ -308,14 +309,22 @@ var ids = new Array();
 
             },
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+                if(ADMIN ==1 && USER_ID == event.uid){
+                    update_dispo_ajax(event);
+                }
+                else{//Cancel the update
+                    fetchCalendar();
+                }
 
-                update_dispo_ajax(event);
 
             },
             eventResize: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-
-                update_dispo_ajax(event);
-
+                if(ADMIN ==1 && USER_ID == event.uid){
+                    update_dispo_ajax(event);
+                }
+                else{//Cancel the update
+                    fetchCalendar();
+                }
             }
 
         });
@@ -590,6 +599,7 @@ var ids = new Array();
             data:    {myEvents : evenements, action : 'add'},
             success: function(data)
             {
+                $('#calendar').fullCalendar( 'removeEvents');
                 fetchCalendar();
             }
 

@@ -9,7 +9,7 @@ $connection = mysql_connect('localhost','root','toor');
 mysql_select_db('sitemeut_espace-i2',$connection);
 
 
-$query = "select he.*, CONCAT_WS(' ',e.prenom,e.nom) as nom
+$query = "select he.*, CONCAT_WS(' ',e.prenom,e.nom) as nom,e.id as uid
           from horaire_etu he
           JOIN etudiant e on e.id = he.etu_id";
 
@@ -26,6 +26,7 @@ while($row = mysql_fetch_array($result, MYSQL_ASSOC))
     // Stores each database record to an array
     $buildjson = array(
         'id' => intval($row['id']),
+        'uid' => intval($row['uid']),
         'title' =>$row['nom'],
         'start' => "$start",
         'end'=>"$end",
