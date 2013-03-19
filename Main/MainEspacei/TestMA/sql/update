@@ -18,6 +18,13 @@ CREATE TABLE IF NOT EXISTS `temps_travail` (
   KEY `etu_id` (`etu_id`,`work_day`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+ALTER TABLE  `temps_travail`
+DROP  `from_hour` ,
+DROP  `to_hour` ,
+DROP  `from_min` ,
+DROP  `to_min` ,
+
+
 
 -- --------------------------------------------------------
 
