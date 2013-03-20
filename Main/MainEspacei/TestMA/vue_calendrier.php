@@ -251,7 +251,10 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
             "Avril", "Mai", "Juin",
             "Juillet", "Août", "Septembre",
             "Octobre", "Novembre", "Décembre"],
-            monthNamesShort: ['Jan','Fev','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Dec'],
+            monthNamesShort: [ "Janvier", "Février", "Mars",
+                "Avril", "Mai", "Juin",
+                "Juillet", "Août", "Septembre",
+                "Octobre", "Novembre", "Décembre"],
             dayNames: [ 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
             dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
             allDaySlot: false,
@@ -259,6 +262,11 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
 			slotMinutes: 5,
 			minTime: 8,
 			maxTime: 20,
+            titleFormat:{
+                day:'dddd,d MMM, yyyy',
+                month:'dddd,d MMM, yyyy',
+                week:"MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+            },
             buttonText: {
                 prev:     '&nbsp;&#9668;&nbsp;',  // left triangle
                 next:     '&nbsp;&#9658;&nbsp;',  // right triangle
