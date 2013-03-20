@@ -120,6 +120,7 @@ if ( !isset($_SESSION['admin'] ) ) {
 				</form>
 			</fieldset>
 		</div>
+        //
 		<div id="bleh2" style="display: inline-block; width: 45%;">
 			<fieldset>
 				<legend><h5>Où vous trouvez-vous</h5></legend>
