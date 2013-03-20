@@ -649,8 +649,6 @@ function refresh_status_js() {
             }
         }); // fin ajax
     }
-
-
 } // fin function
 
 var timer=setInterval("refresh_status_js()", 5000); // r�p�te toutes les 5s
