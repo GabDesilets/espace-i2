@@ -41,16 +41,12 @@ function get_status_aidant($helper_id) {
     session_start();
     $connection = mysql_connect('localhost','root','');
     mysql_select_db('sitemeut_espace-i2',$connection);
-    if($helper_id == $_SESSION['uid']) {
-        echo "Vous ne pouvez entrez en contact avec vous même";
-    }
-    else {
-        $query_status = "SELECT `status` FROM user_status WHERE uid = " . $helper_id;
-        $result_status = mysql_query($query_status);
 
-        while($donnees = mysql_fetch_array($result_status)) {
-           echo $donnees['status'];
-        }
+    $query_status = "SELECT `status` FROM user_status WHERE uid = " . $helper_id;
+    $result_status = mysql_query($query_status);
+
+    while($donnees = mysql_fetch_array($result_status)) {
+       echo $donnees['status'];
     }
 }
 

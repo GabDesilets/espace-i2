@@ -412,24 +412,23 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
 	// Permet de faire afficher les conditions d'utilisation si l'on clique sur un aidants
     // Après le refresh automatique
 	function get_infos (helper_id) {
-        $.ajax({
-            type:    'POST',
-            url:     'user_status.php',
-            data:    {helper_id: helper_id},
-            success: function(data)
-            {
-                if(data === 'En ligne') {
-                    $( "#condition_utilisation" ).dialog( "open" );
-                    $('#chosen_helper').val(helper_id);
+        if(!<?php echo $_SESSION['admin']; ?> >= <?php echo ADMIN; ?>) {
+            $.ajax({
+                type:    'POST',
+                url:     'user_status.php',
+                data:    {helper_id: helper_id},
+                success: function(data)
+                {
+                    if(data === 'En ligne') {
+                        $( "#condition_utilisation" ).dialog( "open" );
+                        $('#chosen_helper').val(helper_id);
+                    }
+                    else {
+                        alert("L'aidant n'est pas disponible pour le moment");
+                    }
                 }
-                else if(data === 'Absent' || data === 'Occupe') {
-                    alert("L'aidant n'est pas disponible pour le moment");
-                }
-                else {
-                    alert(data);
-                }
-            }
-        });
+            });
+        }
     }
     // Avant le refresh automatique
     /*$(".nom_aidants").click(function(){
