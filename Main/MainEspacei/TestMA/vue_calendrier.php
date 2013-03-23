@@ -538,13 +538,13 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
                     type:    'POST',
                     url:     'user_status.php',
                     data:    {status: data.status, helper_id: helper_id},
-                    success: function(data2)
-                    {
-
-                    }
+                    success: change_aidant_status()
                 });
             }
         });
+        function change_aidant_status() {
+            $("#status_text").html("Occupe");
+        }
     }
 /**
  * We add a notice to the helper that someone requested his help
@@ -688,6 +688,7 @@ function refresh_status_js() {
             success: function(data)
             {
                 $("#liste_aidants").html(data);
+                $("#liste_aidants_etu").html(data);
             }
         }); // fin ajax
     }
