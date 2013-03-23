@@ -1,5 +1,6 @@
 <?php session_start(); ?>
 <?php include_once 'calendrier.php'; ?>
+<?php include_once 'config_calendrier_model.php'; ?>
 <?php include_once 'admin_level.php'; ?>
 <?php include 'user_status.php'; ?>
 <!DOCTYPE html>
@@ -22,7 +23,8 @@
 
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
-<?php 
+<?php
+$calConfig = mysql_fetch_assoc(get_cal_config());
 if ( !isset($_SESSION['admin'] ) ) {
     
     echo '<div><p>Une identification est nécessaire pour accéder au contenu de cette page.</p>
@@ -87,10 +89,8 @@ if ( !isset($_SESSION['admin'] ) ) {
 
 <div id="dialog-form" title="Ajout d'une disponibilité">
     <fieldset>
-        <label for="title">Titre</label>
-        <input type="text" id="title" name="title" ><br>
-        <label for="description">Description</label><br>
-        <textarea rows="4" cols="30" name="description" id="description"></textarea>
+        <label for="title">Aidant</label>
+        <input type="text" id="title" name="title" disabled="disabled" ><br>
     </fieldset>
 </div>
 <div id="dialog-Notice" title="Demande d'aide">
@@ -149,7 +149,9 @@ if ( !isset($_SESSION['admin'] ) ) {
 <?php if ( $_SESSION['admin'] >= ADMIN ) : ?>
 
     <div id="aidants">
+        <?php if($_SESSION['admin']==SUPER_ADMIN):?>
         <input type="button" class="btn-info" value="Configuration" id="calendar_config">
+        <?php endif; ?>
         <h4>Aidants connectés</h4>
         <div id='main_users_table'>
             <div id="options_bar" style="height: 25px;">
@@ -213,7 +215,28 @@ if ( !isset($_SESSION['admin'] ) ) {
 
     <div id='calendar' style="width : 1000px; float: right;"></div>
 </div>
-
+<?php if($_SESSION['admin']==SUPER_ADMIN):?>
+<div id='dialog_config_calendar' title="Configuration d'affichage des heures" class="form-horizontal text-left">
+    <div class="control-group text-left">
+        <label class="control-label" for="slotMinute">Cellule des minutes :</label>
+        <div class="controls text-left">
+            <input type="text" id="slotMinute" name="slotMinute" value="<?php echo  $calConfig['slotMinute']; ?>"  class="number" style="width: 35px" maxlength="3">
+        </div>
+    </div>
+    <div class="control-group text-left">
+        <label class="control-label" for="minTime">Heure de debut :</label>
+        <div class="controls text-left">
+            <input type="text" id="minTime" name="minTime"   value="<?php echo  $calConfig['minTime']; ?>" class="number" style="width: 35px" maxlength="3">
+        </div>
+    </div>
+    <div class="control-group text-left">
+        <label class="control-label" for="maxTime">Heure de fin :</label>
+        <div class="controls text-left">
+            <input type="text" id="maxTime" name="maxTime" value="<?php echo  $calConfig['maxTime']; ?>" class="number" style="width: 35px" maxlength="3">
+        </div>
+    </div>
+</div>
+<?php endif; ?>
 <script type="text/javascript">
 var ids = new Array();
 var USER_ID  = <?php echo $_SESSION['uid'];?>;
@@ -261,9 +284,9 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
             dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
             allDaySlot: false,
             allDay:false,
-			slotMinutes: 5,
-			minTime: 8,
-			maxTime: 20,
+			slotMinutes: <?php echo  $calConfig['slotMinute']; ?>,
+			minTime: <?php echo  $calConfig['minTime']; ?>,
+			maxTime: <?php echo  $calConfig['maxTime']; ?>,
             titleFormat:{
                 day:'dddd,d MMM, yyyy',
                 month:'dddd,d MMM, yyyy',
@@ -302,15 +325,14 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
 
 
             },
-           editable: ADMIN ==1 ? true:false,
+           editable: ADMIN >=<?php echo ADMIN ?> ? true:false,
             events:'get_events.php',
 
             eventTextColor: '#000000',
             eventClick: function(event)
             {
-                if(ADMIN ==1 && USER_ID == event.uid)
+                if(ADMIN >=<?php echo ADMIN ?> && USER_ID == event.uid)
                 {
-                    $("#description").val(event.detail);
                     $("#title").val(event.title);
                     eventIDDiag=event.id;
                     $('.ui-button:contains(Suprimmer)').show();
@@ -320,7 +342,7 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
 
             },
             eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-                if(ADMIN ==1 && USER_ID == event.uid){
+                if(ADMIN >=<?php echo ADMIN ?> && USER_ID == event.uid){
                     update_dispo_ajax(event);
                 }
                 else{//Cancel the update
@@ -330,7 +352,7 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
 
             },
             eventResize: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-                if(ADMIN ==1 && USER_ID == event.uid){
+                if(ADMIN >=<?php echo ADMIN ?>  && USER_ID == event.uid){
                     update_dispo_ajax(event);
                 }
                 else{//Cancel the update
@@ -692,7 +714,56 @@ function refresh_status_js() {
         }); // fin ajax
     }
 } // fin function
-
-var timer=setInterval("refresh_status_js()", 5000); // r�p�te toutes les 5s
+<?php if($_SESSION['admin']==SUPER_ADMIN):?>
+$('#calendar_config').click(function(){
+    $( "#dialog_config_calendar" ).dialog( "open" );
+});
+<?php endif;?>
+var timer=setInterval("refresh_status_js()", 5000); // repete toutes les 5s
 var timer=setInterval("getNoticeForHelper()", 20000); // refresh every 20sec
+
+<?php if($_SESSION['admin']==SUPER_ADMIN):?>
+$( "#dialog_config_calendar" ).dialog({
+    autoOpen: false,
+    height: 275,
+    width: 450,
+    modal: true,
+    buttons:{
+        "Enregistrer": function() {
+         var minTime = $('#minTime').val();
+         var maxTime = $('#maxTime').val();
+         var slotMinute = $('#slotMinute').val();
+         var configCalendar={minTime:minTime,maxTime:maxTime,slotMinute:slotMinute};
+            $.ajax({
+                type:    'POST',
+                url:     'config_calendrier.php',
+                dataType:'Json',
+                data:    configCalendar,
+                success: function(data)
+                {
+
+                }
+            });
+            $( this).dialog( "close" );
+            window.location.reload();
+        },
+        Annuler: function() {
+            window.location.reload();
+            $( this ).dialog( "close" );
+        }
+    }
+});
+<?php endif; ?>
+$('.number').keypress(function(event){
+    var key = window.event ? event.keyCode : event.which;
+
+    if (event.keyCode == 8 || event.keyCode == 45) {
+        return true;
+    }
+    else if ( key < 48 || key > 57 ) {
+        return false;
+    }
+    else return true;
+});
+
 </script>

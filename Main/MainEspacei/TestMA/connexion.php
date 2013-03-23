@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by JetBrains PhpStorm.
- * User: Gabriel Lamy
+ * User: Gabriel Desilets
  * Date: 12-11-03
  * Time: 10:19
  * To change this template use File | Settings | File Templates.
  */
-// include_once "modele/employe_model.php";
+include_once "config_calendrier_model.php";
 function connecter($login, $password)
 {
     $employes = get_etudiant("login = '" . $login . "'");
@@ -19,12 +19,19 @@ function connecter($login, $password)
             {
                 session_start();
             }
-            $_SESSION['uid'] = $employe['id'];
-            $_SESSION['nom'] = $employe['nom'];
+            $_SESSION['uid']    = $employe['id'];
+            $_SESSION['nom']    = $employe['nom'];
             $_SESSION['prenom'] = $employe['prenom'];
-            $_SESSION['admin'] = $employe['admin'];
+            $_SESSION['admin']  = $employe['admin'];
 			$_SESSION['status'] = "En ligne";
-			
+
+            $calConfig = get_cal_config();
+            $cConfig = mysql_fetch_assoc($calConfig);
+
+            $_SESSION['minTime']    = $cConfig['minTime'];
+            $_SESSION['maxTime']    = $cConfig['maxTime'];
+            $_SESSION['slotMinute'] = $cConfig['slotMinute'];
+
 			add_status($_SESSION['uid']);
 			
             return  true;
@@ -43,7 +50,7 @@ function connecter($login, $password)
 function get_etudiant( $where = null ) {
 
     // Connection à la base de données.  Cette façon de faire est temporaire
-    $connection = mysql_connect('localhost','root','');
+    $connection = mysql_connect('localhost','root','toor');
     mysql_select_db('sitemeut_espace-i2',$connection);
 	
 	$query = "select * from etudiant ";
@@ -65,7 +72,7 @@ function get_etudiant( $where = null ) {
 
 function add_status($uid) {
 
-    $connection = mysql_connect('localhost','root','');
+    $connection = mysql_connect('localhost','root','toor');
     mysql_select_db('sitemeut_espace-i2',$connection);
 
     $result = mysql_query("SELECT COUNT(`uid`) FROM `user_status` WHERE `uid` = " . $uid);

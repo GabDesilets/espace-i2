@@ -41,3 +41,14 @@ CREATE TABLE IF NOT EXISTS `notification_to_helper` (
   PRIMARY KEY (`id`),
   KEY `helper_id` (`helper_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+--
+-- Table structure for table `config_calendrier`
+--
+
+CREATE TABLE IF NOT EXISTS `config_calendrier` (
+  `minTime` int(2) DEFAULT NULL,
+  `maxTime` int(2) DEFAULT NULL,
+  `slotMinute` int(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
