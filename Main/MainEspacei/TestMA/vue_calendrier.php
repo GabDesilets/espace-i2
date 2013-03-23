@@ -1,5 +1,6 @@
 <?php session_start(); ?>
 <?php include_once 'calendrier.php'; ?>
+<?php include_once 'admin_level.php'; ?>
 <?php include 'user_status.php'; ?>
 <!DOCTYPE html>
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">var ADMIN = <?php echo $_SESSION['admin'] ?>;</script>
@@ -120,7 +121,6 @@ if ( !isset($_SESSION['admin'] ) ) {
 				</form>
 			</fieldset>
 		</div>
-        //
 		<div id="bleh2" style="display: inline-block; width: 45%;">
 			<fieldset>
 				<legend><h5>Où vous trouvez-vous</h5></legend>
@@ -146,8 +146,10 @@ if ( !isset($_SESSION['admin'] ) ) {
 
 <div id='message' class="success"></div>
 <div id="page_complet">
-<?php if ( $_SESSION['admin'] == 1 ) : ?>
+<?php if ( $_SESSION['admin'] >= ADMIN ) : ?>
+
     <div id="aidants">
+        <input type="button" class="btn-info" value="Configuration" id="calendar_config">
         <h4>Aidants connectés</h4>
         <div id='main_users_table'>
             <div id="options_bar" style="height: 25px;">
@@ -234,7 +236,7 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
                 center: 'title',
                 right: 'agendaDay, agendaWeek'
             },
-            selectable:  ADMIN ==1 ? true:false,
+            selectable:  ADMIN >=<?php echo ADMIN ?> ? true:false,
             selectHelper: true,
             //default: 'agendaDay',
 
@@ -265,7 +267,7 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
             titleFormat:{
                 day:'dddd,d MMM, yyyy',
                 month:'dddd,d MMM, yyyy',
-                week:"MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+                week:"d[ yyyy]{ 'au'[ MMM] d MMM yyyy}"
             },
             buttonText: {
                 prev:     '&nbsp;&#9668;&nbsp;',  // left triangle
@@ -456,7 +458,7 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
                             if(data) {
                                 notifyHelper($('#chosen_helper').val());
                                 var admin = <?php echo $_SESSION['admin'];?>;
-                                if(admin == 1) {
+                                if(admin >= <?php echo ADMIN ?>) {
                                     $("#main_users_table").css("width", "400px");
                                     $("#aidants").css("width", "400px");
                                     $("#calendar").css("width", "800px");
@@ -566,7 +568,7 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
  * now decide what he will be doing , refered function => helperRespondNotice
  */
     function getNoticeForHelper(){
-        <?php if($_SESSION['admin'] == 1):?>
+        <?php if($_SESSION['admin'] >= ADMIN):?>
             hID = <?php echo $_SESSION['uid'];?>;
             $.ajax({
                 type:    'GET',
