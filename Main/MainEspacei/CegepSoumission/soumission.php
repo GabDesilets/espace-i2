@@ -177,16 +177,11 @@ $message = $email['message'];
         $name = $files["file"]['name'][$i];
         $size = $files["file"]['size'][$i];
 
-        if (file_exists($tmp_name))
-        {
-            if(is_uploaded_file($tmp_name))
-            {
+        if (file_exists($tmp_name)){
+            if(is_uploaded_file($tmp_name)){
                 $file = fopen($tmp_name,'rb');
-
                 $data = fread($file,filesize($tmp_name));
-
                 fclose($file);
-
                 $data = chunk_split(base64_encode($data));
             }
 
