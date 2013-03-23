@@ -30,7 +30,7 @@ if ( !isset($_SESSION['admin'] ) ) {
 }
 ?>
 <script>
-    var current_tab = null;
+    var current_tab = "onglet_aidants";
     $(document).ready(function(){
 
         /* Permet de mettre un beau tooltip en bas du nom de chaque aidants. */
@@ -410,13 +410,29 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
 	// Permet de faire afficher les conditions d'utilisation si l'on clique sur un aidants
     // Après le refresh automatique
 	function get_infos (helper_id) {
-        $( "#condition_utilisation" ).dialog( "open" );
-        $('#chosen_helper').val(helper_id);
+        $.ajax({
+            type:    'POST',
+            url:     'user_status.php',
+            data:    {helper_id: helper_id},
+            success: function(data)
+            {
+                if(data === 'En ligne') {
+                    $( "#condition_utilisation" ).dialog( "open" );
+                    $('#chosen_helper').val(helper_id);
+                }
+                else if(data === 'Absent' || data === 'Occupe') {
+                    alert("L'aidant n'est pas disponible pour le moment");
+                }
+                else {
+                    alert(data);
+                }
+            }
+        });
     }
     // Avant le refresh automatique
-    $(".nom_aidants").click(function(){
+    /*$(".nom_aidants").click(function(){
         $( "#condition_utilisation" ).dialog( "open" );
-    });
+    });*/
 	// Paramètres pour l'affichage des conditions d'utilisation
 	$( "#condition_utilisation" ).dialog({
         autoOpen: false,
@@ -488,6 +504,13 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
             "Accepter": function(){
                 helperRespondNotice('is_accepted');
                 $( this ).dialog( "close" );
+                $("#main_users_table").css("width", "400px");
+                $("#aidants").css("width", "400px");
+                $("#calendar").css("width", "800px");
+                $("#onglet_chat").css("display", "block");
+                $("#onglet_chat").css("width", "152px");
+                $("#onglet_chat").css("margin-left", "234px");
+                $("#onglet_aidants").css("width", "161px");
             },
             "Refuser": function() {
                 helperRespondNotice('is_refused');
@@ -509,7 +532,15 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
             data:    {helper_id:helper_id,action:'setRespond',respond:respond},
             success: function(data)
             {
+                $.ajax({
+                    type:    'POST',
+                    url:     'user_status.php',
+                    data:    {status: data.status, helper_id: helper_id},
+                    success: function(data2)
+                    {
 
+                    }
+                });
             }
         });
     }

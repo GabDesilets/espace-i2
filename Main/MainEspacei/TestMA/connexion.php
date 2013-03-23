@@ -43,7 +43,7 @@ function connecter($login, $password)
 function get_etudiant( $where = null ) {
 
     // Connection à la base de données.  Cette façon de faire est temporaire
-    $connection = mysql_connect('localhost','root','toor');
+    $connection = mysql_connect('localhost','root','');
     mysql_select_db('sitemeut_espace-i2',$connection);
 	
 	$query = "select * from etudiant ";
@@ -65,7 +65,7 @@ function get_etudiant( $where = null ) {
 
 function add_status($uid) {
 
-    $connection = mysql_connect('localhost','root','toor');
+    $connection = mysql_connect('localhost','root','');
     mysql_select_db('sitemeut_espace-i2',$connection);
 
     $result = mysql_query("SELECT COUNT(`uid`) FROM `user_status` WHERE `uid` = " . $uid);

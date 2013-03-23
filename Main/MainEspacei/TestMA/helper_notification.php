@@ -74,7 +74,7 @@ function setRespond($data){
     }
 
     if(set_notice_status($helper_id,$respond)){
-        echo json_encode(array('success'=>TRUE));
+        echo json_encode(array('success'=>TRUE, 'status'=>'Occupe'));
     }
 }
 

@@ -5,7 +5,7 @@
  * Date: 15/03/13
  * Time: 4:38 PM
  */
-$connection = mysql_connect('localhost','root','toor');
+$connection = mysql_connect('localhost','root','');
 mysql_select_db('sitemeut_espace-i2',$connection);
 
 const IS_ACCEPTED = 'is_accepted';
