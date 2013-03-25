@@ -18,6 +18,6 @@ etudiants et professeurs.
 Nous joindre:
 ---------------
 Gabriel Desilets: gabdesilets@gmail.com<br>
-Marc-Andre Trahan: unknown<br>
+Marc-Andre Trahan: marcandretrahan1@gmail.com<br>
 Alexandre Paquin: unknown<br>
 
