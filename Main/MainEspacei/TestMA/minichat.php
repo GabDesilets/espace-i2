@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/html; charset=iso-8859-1");
-$connection = mysql_connect('localhost','root','toor');
+$connection = mysql_connect('localhost','root','');
 mysql_select_db('sitemeut_espace-i2',$connection);
 
 $_POST['pseudo'] = trim($_POST['pseudo']);

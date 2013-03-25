@@ -77,7 +77,7 @@ if ( !isset($_SESSION['admin'] ) ) {
 					if(data != 'Deconnexion') {
 						$("#status_text").html(data);
 					}
-                    else{
+                    else {
 						window.location.href = "vue_connexion.php";
 					}
                 }
