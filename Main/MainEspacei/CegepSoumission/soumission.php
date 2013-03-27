@@ -155,7 +155,16 @@ function send_request($email,$files)
 $to = $email['to'];
 $subject=$email['subject'];
 $todayis = date("l, F j, Y, g:i a") ;
-$message = $email['message'];
+$message ='Demande :'.PHP_EOL.$email['message'].PHP_EOL;
+$message .='Information personnel :'.PHP_EOL.$email['osbl_nom'];
+$message .=PHP_EOL.$email['osbl_adresse'];
+$message .=PHP_EOL.$email['osbl_ville'];
+$message .=PHP_EOL.$email['osbl_code_p'];
+$message .=PHP_EOL.$email['osbl_phone'];
+$message .=PHP_EOL.$email['osbl_email'];
+$message .=PHP_EOL.$email['contact_source'];
+$message .=PHP_EOL.$email['osbl_project_type'];
+
 
   $mime_boundary="==Multipart_Boundary_x".md5(mt_rand())."x";
 
