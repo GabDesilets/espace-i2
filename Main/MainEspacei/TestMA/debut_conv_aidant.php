@@ -17,6 +17,7 @@ while($val = mysql_fetch_array($requete_id))
 	$_SESSION['Conv_id'] = $val['id'];
 }
 
+
 $message = 'Bienvenue dans le chat:';
 
 mysql_query("INSERT INTO minichat(id_conv,pseudo,message,timestamp) VALUES('$id_conversation','$aidant', '$message', '$time')");
