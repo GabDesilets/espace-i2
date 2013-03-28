@@ -1,4 +1,7 @@
 <?php
+    if(isset($_SESSION)) {
+        session_destroy();
+    }
     include("connexion.php");
     $logged = true;
     $connecting=false;
