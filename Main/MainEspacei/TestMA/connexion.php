@@ -32,6 +32,8 @@ function connecter($login, $password)
             $_SESSION['maxTime']    = $cConfig['maxTime'];
             $_SESSION['slotMinute'] = $cConfig['slotMinute'];
 
+			$_SESSION['Conv_id'] = 0;
+			
 			add_status($_SESSION['uid']);
 			
             return  true;

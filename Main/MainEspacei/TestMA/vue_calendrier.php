@@ -20,9 +20,7 @@
 <link rel='stylesheet' type="text/css" href="css/jquery.loader-min.css" />
 <link rel='stylesheet' type='text/css' href="css/user.table.css" />
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-
 <?php
 $calConfig = mysql_fetch_assoc(get_cal_config());
 if ( !isset($_SESSION['admin'] ) ) {
@@ -146,6 +144,7 @@ if ( !isset($_SESSION['admin'] ) ) {
 
 <div id='message' class="success"></div>
 <div id="page_complet">
+<h2>Centre de dépannage</h2>
 <?php if ( $_SESSION['admin'] >= ADMIN ) : ?>
 
     <div id="aidants">
@@ -214,6 +213,8 @@ if ( !isset($_SESSION['admin'] ) ) {
     <?php endif;?>
 
     <div id='calendar' style="width : 1000px; float: right;"></div>
+	<img src="img/laurel.jpg" align="left" style="height:300px; margin-top:0px;margin-bottom:0px;"/>
+	<img src="img/logo.png" align="right" style="height:100px; margin-top:100px;margin-bottom:0px;"/>
 </div>
 <?php if($_SESSION['admin']==SUPER_ADMIN):?>
 <div id='dialog_config_calendar' title="Configuration d'affichage des heures" class="form-horizontal text-left">
@@ -497,6 +498,17 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
                                     $("#onglet_chat_etu").css("margin-left", "200px");
                                     $("#onglet_aidants_etu").css("width", "187px");
                                 }
+								$.ajax({
+								type:    'POST',
+								url:     'debut_conv.php',
+								data:    {aidant: $('#chosen_helper').val(),uid:<?php echo $_SESSION['uid'] ?>},
+								success: function(data)
+								{
+									
+								}});
+                                //alert('La session commencera sous peu');
+                                //$_SESSION['temps_conv'] = time();
+                                //Accept_conv_insert($aidant,$aide);
                             }
                             else {
                                 alert("Un problème est survenu. Veuillez réessayer plus tard.");

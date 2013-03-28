@@ -530,14 +530,18 @@ table.fc-border-separate {
 	}
 	
 /* slot rows */
-	
+
+.fc-agenda-slots {
+	background: #efefef;
+	}
+
 .fc-agenda-slots th {
 	border-width: 1px 1px 0;
 	}
 	
 .fc-agenda-slots td {
 	border-width: 1px 0 0;
-	background: none;
+	background: #9AB6C1;
 	}
 	
 .fc-agenda-slots td div {

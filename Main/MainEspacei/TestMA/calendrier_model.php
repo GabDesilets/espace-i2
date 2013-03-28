@@ -144,3 +144,20 @@ function update_event_from_emp($new_event)
         return $result;
     }
 }
+
+function Accept_conv_insert($aidant, $aide)
+{
+    $query =  $query = ("INSERT INTO Conversation(aidant,aide,timestamp)
+    VALUES('$aidant', '$aide', '".time()."')");
+
+    $result =  mysql_query($query);
+    if(!$result)
+    {
+        echo"Query failed: " . mysql_error() . " Actual query: " . $query;
+        die();
+    }
+    else
+    {
+        return $result;
+    }
+}

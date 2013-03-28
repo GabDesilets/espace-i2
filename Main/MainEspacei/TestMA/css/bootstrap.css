@@ -222,12 +222,15 @@ textarea {
 }
 
 body {
-  margin: 0;
+  margin: auto;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
   color: #333333;
-  background-color: #ffffff;
+  background-image:url('../img/fond.jpg');
+	background-repeat:no-repeat;
+	background-position:center center;
+  background-color: #efefef;
 }
 
 a {

@@ -18,7 +18,7 @@ else if($current_onglet == 'onglet_chat' || $current_onglet == 'onglet_chat_etu'
 </div>
 <div id="Chat" style="width:100%;height:100%;overflow:auto">
 <p>
-Pseudo : <br/><input type="text" name="pseudo" id="pseudo" /><br />
+<div style="visibility:hidden;">Pseudo : <br/><input type="text" name="pseudo" id="pseudo" /><br /></div>
 Message : <br/><textarea name="message" rows="4" cols="30" id="message_chat" style="width: 375px;" ></textarea><br />
 <input type="button" class="btn" value="Envoyer" onclick="submitChat();" />
 </p>
