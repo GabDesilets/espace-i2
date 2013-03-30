@@ -159,12 +159,11 @@ $message ='Demande :'.PHP_EOL.$email['message'].PHP_EOL;
 $message .='Information personnel :'.PHP_EOL.$email['osbl_nom'];
 $message .=PHP_EOL.$email['osbl_adresse'].' '.$email['osbl_ville'];
 $message .=PHP_EOL.'Code postal : '.$email['osbl_code_p'];
-$message .=PHP_EOL.'Téléphone : '.$email['osbl_phone'];
+$message .=PHP_EOL.'Téléphone : '.$email['osbl_phone'].' Poste : '.$email['osbl_phone_post'];
 $message .=PHP_EOL.'Courriel : '.$email['osbl_email'];
 $message .=PHP_EOL.'Personne contacte : '.$email['contact_source'];
 $message .=PHP_EOL.'Type de projet : '.$email['osbl_project_type'];
 $message .=$email['osbl_project_type']=='Autre' ? PHP_EOL.$email['other_choice'] : '';
-
 
   $mime_boundary="==Multipart_Boundary_x".md5(mt_rand())."x";
 
@@ -175,7 +174,7 @@ $message .=$email['osbl_project_type']=='Autre' ? PHP_EOL.$email['other_choice']
 
          $message = "This is a multi-part message in MIME format.\n\n" .
              "--{$mime_boundary}\n" .
-             "Content-Type: text/plain; charset=\"iso-8859-1\"\n" .
+             "Content-Type: text/plain; charset=\"utf-8\"\n" .
              "Content-Transfer-Encoding: 7bit\n\n" .
              $message . "\n\n";
 

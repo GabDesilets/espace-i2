@@ -30,7 +30,7 @@ if(!session_id())
 </head>
 <body>
     <form enctype="multipart/form-data"  method="POST" action="soumission.php" class="form-inline form-horizontal" accept-charset='UTF-8'>
-        <img src="img/logo_top_cegeptr.jpg">
+        <img src="img/Espace_i-seul_RGB.jpg">
             <legend class="text-center">
                 Espace-i
                 <br> Département d'informatique
