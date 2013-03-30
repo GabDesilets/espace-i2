@@ -1,7 +1,7 @@
 <?php
 session_start();
 header("Content-Type: text/html; charset=iso-8859-1");
-$connection = mysql_connect('localhost','root','');
+$connection = mysql_connect('localhost','root','toor');
 mysql_select_db('sitemeut_espace-i2',$connection);
 
 $uid = $_SESSION['uid'];

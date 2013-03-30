@@ -9,7 +9,7 @@ if(isset($_POST['status']) && isset($_POST['helper_id'])) {
 
 function get_user_status()
 {
-    $connection = mysql_connect('localhost','root','');
+    $connection = mysql_connect('localhost','root','toor');
     mysql_select_db('sitemeut_espace-i2',$connection);
 	//Requ�te
 	$query_status = "SELECT * FROM etudiant, user_status WHERE user_status.uid = etudiant.id";
@@ -43,7 +43,7 @@ function get_user_status()
 
 function get_status() {
 
-    $connection = mysql_connect('localhost','root','');
+    $connection = mysql_connect('localhost','root','toor');
     mysql_select_db('sitemeut_espace-i2',$connection);
 
     $query_status = "SELECT `status` FROM user_status WHERE uid = " . $_SESSION['uid'];
@@ -57,7 +57,7 @@ function get_status() {
 
 function get_status_aidant($helper_id) {
     session_start();
-    $connection = mysql_connect('localhost','root','');
+    $connection = mysql_connect('localhost','root','toor');
     mysql_select_db('sitemeut_espace-i2',$connection);
 
     $query_status = "SELECT `status` FROM user_status WHERE uid = " . $helper_id;
@@ -69,7 +69,7 @@ function get_status_aidant($helper_id) {
 }
 
 function set_status_occupe($status, $helper_id) {
-    $connection = mysql_connect('localhost','root','');
+    $connection = mysql_connect('localhost','root','toor');
     mysql_select_db('sitemeut_espace-i2',$connection);
 
     $query = mysql_query("UPDATE user_status SET status = '".$status."' WHERE uid = ".$helper_id) or die(mysql_error());

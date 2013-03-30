@@ -5,7 +5,7 @@
  * Date: 02/03/13
  * Time: 6:33 PM
  */
-$connection = mysql_connect('localhost','root','');
+$connection = mysql_connect('localhost','root','toor');
 mysql_select_db('sitemeut_espace-i2',$connection);
 
 

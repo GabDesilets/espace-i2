@@ -6,7 +6,7 @@
  * Time: 16:33
  * Purpose :
  */
-$connection = mysql_connect('localhost','root','');
+$connection = mysql_connect('localhost','root','toor');
 mysql_select_db('sitemeut_espace-i2',$connection);
 
 function insert_dispo($data)
@@ -99,40 +99,6 @@ function update_dispo($data)
 {
     $query ='UPDATE horaire_etu set  heuredebut="'.$data['start'].'",heurefin="'.$data['end'].'" WHERE id="'.$data['id'].'"';
 
-    $result =  mysql_query($query);
-    if(!$result)
-    {
-        echo"Query failed: " . mysql_error() . " Actual query: " . $query;
-        die();
-    }
-    else
-    {
-        return $result;
-    }
-}
-
-function get_not_accepted_dispo($id)
-{
-    $query = "select * from events
-    join employe on employe.id = events.employe
-     WHERE events.employe =".$id."
-     AND events.accepte IS FALSE";
-    $result =  mysql_query($query);
-    if(!$result)
-    {
-        echo"Query failed: " . mysql_error() . " Actual query: " . $query;
-        die();
-    }
-    else
-    {
-        return $result;
-    }
-}
-
-function update_event_from_emp($new_event)
-{
-    $query = "UPDATE events_accepted set is_accepted = ".$new_event['is_accepted'].", is_denied=".$new_event['is_denied'].
-        " WHERE event_id = ".$new_event['event_id']." and emp_id=".$new_event['emp_id'];
     $result =  mysql_query($query);
     if(!$result)
     {

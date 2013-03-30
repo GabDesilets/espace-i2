@@ -311,14 +311,14 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
             },
             select: function(start, end, allDay,event) {
 
-                if(ADMIN == 1)
+                if(ADMIN >= <?php echo ADMIN ?>)
                 {
                     startDiag=start;
                     endDiag=end;
                     alldayDiag=allDay;
                     eventIDDiag=null;
                     $("#description").val("");
-                    $("#title").val("");
+                    $("#title").val("<?php echo  $_SESSION['prenom'].' '.$_SESSION['nom']?>");
                     $('.ui-button:contains(Suprimmer)').hide();
                     $( "#dialog-form" ).dialog( "open" );
                     $('#title').focus();
