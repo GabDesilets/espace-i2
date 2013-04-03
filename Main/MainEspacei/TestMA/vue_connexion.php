@@ -43,6 +43,10 @@
         .gradient {
             filter: none!important;
         }
+        body{
+            background-image: none;
+            background-color: #ffffff;
+        }
     </style>
     <![endif]-->
 
