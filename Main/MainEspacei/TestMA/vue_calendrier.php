@@ -21,6 +21,15 @@
 <link rel='stylesheet' type='text/css' href="css/user.table.css" />
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+<!--[if IE]>
+<style type="text/css">
+    body{
+        background-image: none;
+    }
+</style>
+<![endif]-->
+
 <?php
 $calConfig = mysql_fetch_assoc(get_cal_config());
 if ( !isset($_SESSION['admin'] ) ) {
