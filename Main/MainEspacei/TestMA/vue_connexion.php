@@ -50,6 +50,7 @@
 
 <body >
 <div id="wrapper">
+    <div id="bloc_connexion">
     <table id="centertable">
         <tr>
             <td width="50%" id="tdhide"></td>
@@ -115,6 +116,8 @@
             <td width="50%"></td>
         </tr>
     </table>
+
+    </div>
 </div>
 </body>
 

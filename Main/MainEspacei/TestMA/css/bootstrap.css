@@ -7,6 +7,15 @@
  *
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
+#bloc_connexion{
+    background-color: #ffffff;
+    width:500px;
+    margin:auto;
+    margin-top:10%;
+    border-radius: 20px;
+    opacity: 0.9;
+
+}
 
 .clearfix {
   *zoom: 1;
