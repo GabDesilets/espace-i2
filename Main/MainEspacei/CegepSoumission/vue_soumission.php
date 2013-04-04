@@ -85,14 +85,14 @@ if(!session_id())
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="osbl_email">Courriel:</label>
+            <label class="control-label" for="osbl_email">*Courriel:</label>
             <div class="controls">
                 <input id="osbl_email"  name="osbl_email" class="span3" type="email" required
                        value="<?php echo isset($_SESSION['var']['osbl_email']) ? $_SESSION['var']['osbl_email'] : '' ?>">
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="osbl_phone">Téléphone:</label>
+            <label class="control-label" for="osbl_phone">*Téléphone:</label>
             <div class="controls">
                 <input id="osbl_phone" name="osbl_phone" class="number input-medium" type="tel" required
                        value="<?php echo isset($_SESSION['var']['osbl_phone']) ? $_SESSION['var']['osbl_phone'] : '' ?>">
