@@ -46,7 +46,11 @@ if(!session_id())
                 <?php echo $_SESSION['success_send_submission'] ?>
             </div>
         <?php endif; ?>
-
+        <div class="control-group">
+            <div class="alert alert-info controls" style="width: 1000px">
+               Les champs munis d'un astérisque (*) sont obligatoire.
+            </div>
+        </div>
             <div class="control-group">
             <label class="control-label" for="osbl_nom">Nom de l'organisme</label>
             <div class="controls">
