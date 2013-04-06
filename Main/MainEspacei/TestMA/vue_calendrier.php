@@ -100,7 +100,7 @@ if ( !isset($_SESSION['admin'] ) ) {
         <input type="text" id="title" name="title" disabled="disabled" ><br>
     </fieldset>
 </div>
-<div id="dialog-Notice" title="Demande d'aide">
+<div id="dialogNotice" title="Demande d'aide">
     <p>Une personne souhaite entrer en contacte avec vous.</p>
 </div>
 
@@ -539,7 +539,7 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
     });
 
 //Dialog for the notice that the current helper will receive when someone ask for help with this specific person.
-    $( "#dialog-Notice" ).dialog({
+    $( "#dialogNotice" ).dialog({
         autoOpen: false,
         height: 225,
         width: 500,
@@ -620,7 +620,7 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
                 success: function(data)
                 {
                     if(data.haveNotice){
-                        $( "#dialog-Notice" ).dialog('open');
+                        $( "#dialogNotice" ).dialog('open');
                     }
                 }
             });

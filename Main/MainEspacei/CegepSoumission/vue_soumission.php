@@ -3,6 +3,8 @@ if(!session_id())
 {
     session_start();
 }
+$_SESSION['var'] = array();
+set_empty_session();
 ?>
 <!DOCTYPE html>
 <html>
