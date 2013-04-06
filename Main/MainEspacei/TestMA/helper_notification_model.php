@@ -16,7 +16,7 @@ function insert_notice($helper_id){
     $result =  mysql_query($query);
     if(!$result)
     {
-        echo"Query failed: " . mysql_error() . " Actual query: " . $query;
+        echo"Query failed: " . mysql_error() ;
         die();
     }
 }
