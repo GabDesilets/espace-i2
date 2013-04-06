@@ -509,10 +509,13 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
                                     $("#main_users_table_etu").css("width", "400px");
                                     $("#aidants").css("width", "400px");
                                     $("#calendar").css("width", "800px");
-                                    $("#onglet_chat_etu").css("display", "block");
-                                    $("#onglet_chat_etu").css("width", "186px");
-                                    $("#onglet_chat_etu").css("margin-left", "200px");
-                                    $("#onglet_aidants_etu").css("width", "187px");
+                                    $("#onglet_chat_etu").css("display", "inline-block");
+                                    $("#onglet_chat_etu").css("width", "136px");
+                                    $("#onglet_chat_etu").css("margin-left", "250px");
+                                    $("#onglet_aidants_etu").css("width", "140px");
+                                    $("#onglet_aidants_etu").css("display", "inline-block");
+                                    $("#onglet_aidants_etu").css("margin-top", "-0px");
+                                    $("#onglet_aidants_etu").css("margin-left", "-5px");
                                 }
 								$.ajax({
 								type:    'POST',
