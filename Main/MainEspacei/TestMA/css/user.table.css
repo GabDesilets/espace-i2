@@ -68,9 +68,19 @@
     margin-top: 15px;
 }
 
+#onglet_deconnexion
+{
+    height: 23px;
+    display: inline-block;
+    width: 87px;
+    text-align: center;
+}
+
 #onglet_aidants_etu
 {
     height: 23px;
+    margin-top : -47px;
+    margin-left: 100px;
     display: inline-block;
     width: 87px;
     text-align: center;

@@ -7,12 +7,20 @@ if(isset($_POST['status']) && isset($_POST['helper_id'])) {
     echo set_status_occupe($_POST['status'], $_POST['helper_id']);
 }
 
+function deconnexion($uid) {
+    $connection = mysql_connect('localhost','root','');
+    mysql_select_db('sitemeut_espace-i2',$connection);
+
+    mysql_query("DELETE FROM user_status WHERE uid = " .$uid) or die(mysql_error());
+    header("Location: vue_connexion.php");
+}
+
 function get_user_status()
 {
-    $connection = mysql_connect('localhost','root','toor');
+    $connection = mysql_connect('localhost','root','');
     mysql_select_db('sitemeut_espace-i2',$connection);
 	//Requ�te
-	$query_status = "SELECT * FROM etudiant, user_status WHERE user_status.uid = etudiant.id";
+	$query_status = "SELECT * FROM etudiant, user_status WHERE user_status.uid = etudiant.id AND user_status.status != 'Deconnexion'";
 	$result_status = mysql_query($query_status);
     $count = 0;
     $count_aidant = 0;
@@ -39,11 +47,14 @@ function get_user_status()
             echo '<br><p>Il y a ' . $count . ' utilisateurs présentements connectés</p>';
         }
     }
+    else {
+        echo '<br><p>Il n\'y a aucun utilisateur présentement connecté</p>';
+    }
 }
 
 function get_status() {
 
-    $connection = mysql_connect('localhost','root','toor');
+    $connection = mysql_connect('localhost','root','');
     mysql_select_db('sitemeut_espace-i2',$connection);
 
     $query_status = "SELECT `status` FROM user_status WHERE uid = " . $_SESSION['uid'];
@@ -57,7 +68,7 @@ function get_status() {
 
 function get_status_aidant($helper_id) {
     session_start();
-    $connection = mysql_connect('localhost','root','toor');
+    $connection = mysql_connect('localhost','root','');
     mysql_select_db('sitemeut_espace-i2',$connection);
 
     $query_status = "SELECT `status` FROM user_status WHERE uid = " . $helper_id;
@@ -69,7 +80,7 @@ function get_status_aidant($helper_id) {
 }
 
 function set_status_occupe($status, $helper_id) {
-    $connection = mysql_connect('localhost','root','toor');
+    $connection = mysql_connect('localhost','root','');
     mysql_select_db('sitemeut_espace-i2',$connection);
 
     $query = mysql_query("UPDATE user_status SET status = '".$status."' WHERE uid = ".$helper_id) or die(mysql_error());
