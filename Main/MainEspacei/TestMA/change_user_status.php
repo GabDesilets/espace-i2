@@ -2,7 +2,7 @@
 session_start();
 $current_status = $_POST['status'];
 
-$connection = mysql_connect('localhost','root','toor');
+$connection = mysql_connect('localhost','root','');
 mysql_select_db('sitemeut_espace-i2',$connection);
 
 $uid = $_SESSION['uid'];

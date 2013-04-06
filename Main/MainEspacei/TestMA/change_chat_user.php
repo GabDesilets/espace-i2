@@ -2,9 +2,12 @@
 session_start();
 $current_onglet = $_POST['onglet'];
 include_once 'user_status.php';
+if ($current_onglet == 'onglet_deconnexion') {
+    deconnexion($_SESSION['uid']);
+}
 if($current_onglet == 'onglet_aidants' || $current_onglet == 'onglet_aidants_etu')
 {
-	echo get_user_status();
+	echo get_user_status($_SESSION['uid']);
 }
 else if($current_onglet == 'onglet_chat' || $current_onglet == 'onglet_chat_etu') {
 ?>

@@ -60,6 +60,9 @@ if ( !isset($_SESSION['admin'] ) ) {
                     if(current_onglet == "onglet_chat_etu" || current_onglet == "onglet_aidants_etu") {
                         $("#liste_aidants_etu").html(data);
                     }
+                    else if(current_onglet == 'onglet_deconnexion') {
+                        window.location.href = "vue_connexion.php";
+                    }
                     else {
                         $("#liste_aidants").html(data);
                     }
@@ -202,6 +205,10 @@ if ( !isset($_SESSION['admin'] ) ) {
         <h4>Aidants connectés</h4>
         <div id='main_users_table_etu'>
             <div id="options_bar_etu" style="height: 25px;">
+                <div id="onglet_deconnexion" class="onglets btn btn-mini">
+                    <p>Déconnexion</p>
+                </div>
+
                 <div id="onglet_aidants_etu" class="onglets btn btn-mini">
                     <p>Aidants</p>
                 </div>
@@ -502,10 +509,13 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
                                     $("#main_users_table_etu").css("width", "400px");
                                     $("#aidants").css("width", "400px");
                                     $("#calendar").css("width", "800px");
-                                    $("#onglet_chat_etu").css("display", "block");
-                                    $("#onglet_chat_etu").css("width", "186px");
-                                    $("#onglet_chat_etu").css("margin-left", "200px");
-                                    $("#onglet_aidants_etu").css("width", "187px");
+                                    $("#onglet_chat_etu").css("display", "inline-block");
+                                    $("#onglet_chat_etu").css("width", "136px");
+                                    $("#onglet_chat_etu").css("margin-left", "250px");
+                                    $("#onglet_aidants_etu").css("width", "140px");
+                                    $("#onglet_aidants_etu").css("display", "inline-block");
+                                    $("#onglet_aidants_etu").css("margin-top", "-0px");
+                                    $("#onglet_aidants_etu").css("margin-left", "-5px");
                                 }
 								$.ajax({
 								type:    'POST',
