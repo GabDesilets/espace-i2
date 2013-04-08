@@ -112,6 +112,7 @@ function _run_validation($data = array())
 
 function set_session_return_value($data,$reset = FALSE)
 {
+
     if(!session_id())
     {
         session_start();
@@ -137,25 +138,30 @@ function set_session_return_value($data,$reset = FALSE)
 
 function set_empty_session($data = array())
 {
-    $email = array(
-        'to'=>ESPACEI_ADRR_FJ,
-        'Cc'=>ESPACEI_ADRR_MPP,
-        'osbl_nom'=>isset($data['osbl_nom']) ? $data['osbl_nom'] : "",
-        'osbl_adresse'=>isset($data['osbl_adresse']) ? $data['osbl_adresse'] : "",
-        'osbl_ville'=>isset($data['osbl_ville']) ? $data['osbl_ville'] : "",
-        'osbl_code_p'=>isset($data['osbl_code_p']) ? $data['osbl_code_p'] : "",
-        'osbl_phone'=>isset($data['osbl_phone']) ? $data['osbl_phone'] : "",
-        'osbl_phone_post'=>isset($data['osbl_phone_post']) ? $data['osbl_phone_post'] : "",
-        'osbl_email'=>isset($data['osbl_email']) ? $data['osbl_email'] : "",
-        'contact_source'=>isset($data['contact_source']) ? $data['contact_source'] : "",
-        'osbl_project_type'=>isset($data['osbl_project_type']) ? $data['osbl_project_type'] : "",
-        'other_choice'=>isset($data['other_choice']) ? $data['other_choice'] : "",
-        'private_phone'=>isset($data['private_phone']) ? $data['private_phone'] : "",
-        'private_poste'=>isset($data['private_phone_poste']) ? $data['private_phone_poste'] : "",
-        'private_email'=>isset($data['private_email']) ? $data['private_email'] : "",
-        'files'=>NULL
-    );
-    set_session_return_value($email);
+   //die(var_dump($_SESSION));
+    if(!isset($_SESSION['var']))
+    {
+        $email = array(
+            'to'=>ESPACEI_ADRR_FJ,
+            'Cc'=>ESPACEI_ADRR_MPP,
+            'osbl_nom'=>isset($data['osbl_nom']) ? $data['osbl_nom'] : "",
+            'osbl_adresse'=>isset($data['osbl_adresse']) ? $data['osbl_adresse'] : "",
+            'osbl_ville'=>isset($data['osbl_ville']) ? $data['osbl_ville'] : "",
+            'osbl_code_p'=>isset($data['osbl_code_p']) ? $data['osbl_code_p'] : "",
+            'osbl_phone'=>isset($data['osbl_phone']) ? $data['osbl_phone'] : "",
+            'osbl_phone_post'=>isset($data['osbl_phone_post']) ? $data['osbl_phone_post'] : "",
+            'osbl_email'=>isset($data['osbl_email']) ? $data['osbl_email'] : "",
+            'contact_source'=>isset($data['contact_source']) ? $data['contact_source'] : "",
+            'osbl_project_type'=>isset($data['osbl_project_type']) ? $data['osbl_project_type'] : "",
+            'other_choice'=>isset($data['other_choice']) ? $data['other_choice'] : "",
+            'private_phone'=>isset($data['private_phone']) ? $data['private_phone'] : "",
+            'private_poste'=>isset($data['private_phone_poste']) ? $data['private_phone_poste'] : "",
+            'private_email'=>isset($data['private_email']) ? $data['private_email'] : "",
+            'files'=>NULL
+        );
+        set_session_return_value($email);
+    }
+
 }
 function formatBytes($bytes, $precision = 2)
    {
