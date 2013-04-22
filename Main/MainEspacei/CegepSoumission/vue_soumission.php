@@ -31,7 +31,10 @@ set_empty_session();
 </head>
 <body>
     <form enctype="multipart/form-data"  method="POST" action="soumission.php" class="form-inline form-horizontal" accept-charset='UTF-8'>
-        <img src="img/Espace_i-seul_RGB.jpg">
+      <div class="img-circle input-large">
+          <img src="img/Espace_i_Developp_RGB.jpg">
+      </div>
+
             <legend class="text-center">
                 Espace-i
                 <br> Département d'informatique
