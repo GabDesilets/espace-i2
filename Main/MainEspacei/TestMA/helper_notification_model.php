@@ -51,9 +51,11 @@ function set_notice_status($helper_id,$respond, $conv_id){
             $query = "update notification_to_helper SET is_accepted = 0,is_refused = 0 , is_seen = 1 where 1=0";
     }
 
+    $result =  mysql_query($query);
+
     if($query2 != "") {
         $result2 = mysql_query($query2);
     }
-    $result =  mysql_query($query);
+
     return $result;
 }
