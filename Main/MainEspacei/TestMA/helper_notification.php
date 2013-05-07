@@ -68,12 +68,13 @@ function getNotice($data){
 function setRespond($data){
     $helper_id  =  CheckIsset($data,'helper_id');
     $respond    =  CheckIsset($data,'respond');
+    $conv_id    =  CheckIsset($data, 'conv_id');
 
     if($helper_id===NULL || $respond===NULL){
         die("Une erreur est survenue desoler :( ");
     }
 
-    if(set_notice_status($helper_id,$respond)){
+    if(set_notice_status($helper_id,$respond,$conv_id)){
         echo json_encode(array('success'=>TRUE, 'status'=>'Occupe'));
     }
 }

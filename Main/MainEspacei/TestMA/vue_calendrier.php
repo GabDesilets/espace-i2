@@ -473,6 +473,9 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
     /*$(".nom_aidants").click(function(){
         $( "#condition_utilisation" ).dialog( "open" );
     });*/
+
+    var conv_id;
+
 	// Paramètres pour l'affichage des conditions d'utilisation
 	$( "#condition_utilisation" ).dialog({
         autoOpen: false,
@@ -521,9 +524,9 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
 								type:    'POST',
 								url:     'debut_conv.php',
 								data:    {aidant: $('#chosen_helper').val(),uid:<?php echo $_SESSION['uid'] ?>},
-								success: function(data)
+								success: function(data2)
 								{
-									
+                                    conv_id = data2;
 								}});
                                 //alert('La session commencera sous peu');
                                 //$_SESSION['temps_conv'] = time();
@@ -583,7 +586,7 @@ var USER_ID  = <?php echo $_SESSION['uid'];?>;
             type:    'POST',
             url:     'helper_notification.php',
             dataType:'Json',
-            data:    {helper_id:helper_id,action:'setRespond',respond:respond},
+            data:    {helper_id:helper_id,action:'setRespond',respond:respond,conv_id:conv_id},
             success: function(data)
             {
                 $.ajax({

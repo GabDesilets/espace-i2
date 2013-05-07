@@ -6,7 +6,7 @@
  * Time: 16:33
  * Purpose :
  */
-$connection = mysql_connect('localhost','root','toor');
+$connection = mysql_connect('localhost','root','');
 mysql_select_db('sitemeut_espace-i2',$connection);
 
 function insert_dispo($data)
