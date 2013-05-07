@@ -53,7 +53,7 @@ function set_notice_status($helper_id,$respond, $conv_id){
 
     if($query2 != "") {
         $result2 = mysql_query($query2);
-        $result =  mysql_query($query);
     }
+    $result =  mysql_query($query);
     return $result;
 }
